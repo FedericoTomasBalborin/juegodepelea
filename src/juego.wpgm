@@ -1,0 +1,8 @@
+import wollok.game.*
+
+program juego {
+	game.title("")
+	game.height(10)
+	game.width(10)
+	game.start()
+}
