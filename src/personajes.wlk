@@ -43,13 +43,13 @@ object jugador
 {
 	method movimiento()
 	{
-		keyboard.left().onPressDo({personaje.retroceder()})
-		keyboard.right().onPressDo({personaje.avanzar()})
-		keyboard.up().onPressDo({personaje.volar()})
+		keyboard.a().onPressDo({personaje.retroceder()})
+		keyboard.d().onPressDo({personaje.avanzar()})
+		keyboard.w().onPressDo({personaje.volar()})
 		game.onTick(500,"fall",{=> personaje.caer()})
 	}
 	method disparar()
 	{
-		keyboard.x().onPressDo({personaje.disparar()})
+		keyboard.j().onPressDo({personaje.disparar()})
 	}
 }
