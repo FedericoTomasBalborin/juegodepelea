@@ -1,4 +1,5 @@
 import wollok.game.*
+import plataformas.*
 import personajes.*
 import proyectiles.*
 
@@ -7,8 +8,9 @@ program juego
 	game.title("Tiroteo Extremo")
 	game.height(10)
 	game.width(20)
+	fondo.background()
 	jugador.movimiento()
 	jugador.disparar()
-	game.addVisual(personaje)
+	jugador.escogerPersonaje()
 	game.start()
 }

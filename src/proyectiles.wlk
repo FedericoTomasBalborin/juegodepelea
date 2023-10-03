@@ -2,7 +2,6 @@ import wollok.game.*
 import personajes.*
 class Disparo
 {
-	const shooter=personaje
 	const property image = "shoot.png"
 	var property position
 	
@@ -19,9 +18,9 @@ class Disparo
 		game.schedule(500,{game.removeTickEvent("moverse")})
 	}
 	
-	method evaluarComportamiento()
+	method evaluarComportamiento(_chara)
 	{
-		if(shooter.direccion() == "der")
+		if(_chara.direccion() == "der")
 		{
 			self.comportamientoDerecha()
 		}
@@ -34,12 +33,52 @@ class Disparo
 	
 	method comportamientoIzquierda()
 	{
-		game.onTick(100,"moverse",{=> self.moverIzq()})
+		game.onTick(50,"moverse",{=> self.moverIzq()})
 		self.detenerMovimiento()
 	}
 	method comportamientoDerecha()
 	{
-		game.onTick(100,"moverse",{=> self.moverDer()})
+		game.onTick(50,"moverse",{=> self.moverDer()})
 		self.detenerMovimiento()
 	}
 }
+
+class DisparoHorizontal inherits Disparo
+{
+	method moverArriba()
+	{
+		position = self.position().up(1)
+	}
+	method comportamientoUnico()
+	{
+		game.onTick(75,"moverse",{=> self.moverArriba()})
+		self.detenerMovimiento()
+	}
+	override method evaluarComportamiento(_chara)
+	{
+		self.comportamientoUnico()
+	}
+}
+
+object armamentoYui
+{
+	method dispararProyectil1(_chara)
+	{
+		const proyectil = new Disparo(position = _chara.position())
+		game.addVisual(proyectil)
+		proyectil.evaluarComportamiento(_chara)
+		game.schedule(500,{=> game.removeVisual(proyectil)})
+	}
+	method dispararProyectil2(_chara)
+	{
+		const proyectil = new DisparoHorizontal(position = _chara.position())
+		game.addVisual(proyectil)
+		proyectil.evaluarComportamiento(_chara)
+		game.schedule(500,{=> game.removeVisual(proyectil)})
+		
+	}
+}
+
+
+
+
