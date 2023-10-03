@@ -1,7 +1,7 @@
 import wollok.game.*
 object fondo
 {
-	const image = "BladeRunner.jpg"
+	const image = "fondo.jpg"
 	method background()
 	{
 		game.boardGround(image)
