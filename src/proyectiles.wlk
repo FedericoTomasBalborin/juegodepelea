@@ -43,42 +43,103 @@ class Disparo
 	}
 }
 
-class DisparoHorizontal inherits Disparo
+class DisparoArriba inherits Disparo
 {
 	method moverArriba()
 	{
 		position = self.position().up(1)
 	}
-	method comportamientoUnico()
+	method comportamientoVertical()
 	{
 		game.onTick(75,"moverse",{=> self.moverArriba()})
-		self.detenerMovimiento()
 	}
 	override method evaluarComportamiento(_chara)
 	{
-		self.comportamientoUnico()
+		self.comportamientoVertical()
+		self.detenerMovimiento()
 	}
 }
 
+class DisparoAbajo inherits Disparo
+{
+	method moverAbajo()
+	{
+		position = self.position().down(1)
+	}
+	method comportamientoVertical()
+	{
+		game.onTick(75,"moverse",{=> self.moverAbajo()})
+	}
+	override method evaluarComportamiento(_chara)
+	{
+		self.comportamientoVertical()
+		self.detenerMovimiento()
+	}
+}
+
+class DisparoDiagonal inherits Disparo
+{
+	override method moverIzq()
+	{
+		position = self.position().up(1)
+		super()
+	}
+	override method moverDer()
+	{
+		position = self.position().up(1)
+		super()
+	}
+}
+
+class DisparoDiagonalWarped inherits DisparoDiagonal
+{
+	override method moverIzq()
+	{
+		position = self.position().up(1)
+		super()
+	}
+	override method moverDer()
+	{
+		position = self.position().up(1)
+		super()
+	}
+}
+
+//Armamentos
 object armamentoYui
 {
 	method dispararProyectil1(_chara)
 	{
-		const proyectil = new Disparo(position = _chara.position())
+		const proyectil = new DisparoDiagonal(position = _chara.position())
 		game.addVisual(proyectil)
 		proyectil.evaluarComportamiento(_chara)
-		game.schedule(500,{=> game.removeVisual(proyectil)})
+		game.schedule(750,{=> game.removeVisual(proyectil)})
 	}
 	method dispararProyectil2(_chara)
 	{
-		const proyectil = new DisparoHorizontal(position = _chara.position())
+		const proyectil = new DisparoDiagonalWarped(position = _chara.position())
 		game.addVisual(proyectil)
 		proyectil.evaluarComportamiento(_chara)
-		game.schedule(500,{=> game.removeVisual(proyectil)})
+		game.schedule(750,{=> game.removeVisual(proyectil)})
 		
 	}
 }
 
-
-
-
+object armamentoZipmata
+{
+	method dispararProyectil1(_chara)
+	{
+		const proyectil = new DisparoArriba(position = _chara.position())
+		game.addVisual(proyectil)
+		proyectil.evaluarComportamiento(_chara)
+		game.schedule(750,{=> game.removeVisual(proyectil)})
+	}
+	method dispararProyectil2(_chara)
+	{
+		const proyectil = new DisparoAbajo(position = _chara.position())
+		game.addVisual(proyectil)
+		proyectil.evaluarComportamiento(_chara)
+		game.schedule(750,{=> game.removeVisual(proyectil)})
+		
+	}
+}

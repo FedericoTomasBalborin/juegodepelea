@@ -1,13 +1,68 @@
 import wollok.game.*
 import proyectiles.*
 
-object poolYui
+//JUGADORES
+object jugador
+{
+	const listaDePersonajes = [poolYui,zipmata]
+	var personaje
+	method escogerPersonaje()
+	{
+		personaje = listaDePersonajes.get(0)
+		game.addVisual(personaje)
+	}
+	method movimiento()
+	{
+		keyboard.a().onPressDo({personaje.retroceder()})
+		keyboard.d().onPressDo({personaje.avanzar()})
+		keyboard.w().onPressDo({personaje.volar()})
+		game.onTick(500,"caida",{=> personaje.caer()})
+	}
+	method disparar()
+	{
+		keyboard.j().onPressDo({personaje.disparo1()})
+		keyboard.k().onPressDo({personaje.disparo2()})
+	}
+}
+
+object jugador2
+{
+	const listaDePersonajes = [poolYui,zipmata]
+	var personaje
+	method escogerPersonaje()
+	{
+		personaje = listaDePersonajes.get(1)
+		game.addVisual(personaje)
+	}
+	method movimiento()
+	{
+		keyboard.left().onPressDo({personaje.retroceder()})
+		keyboard.right().onPressDo({personaje.avanzar()})
+		keyboard.up().onPressDo({personaje.volar()})
+		game.onTick(500,"caida",{=> personaje.caer()})
+	}
+	method disparar()
+	{
+		keyboard.z().onPressDo({personaje.disparo1()})
+		keyboard.x().onPressDo({personaje.disparo2()})
+	}
+}
+
+
+
+
+
+
+
+
+
+
+//personajes jugables
+class Personaje
 {
 	var property direccion = "der" //La orientacion a donde el personaje esta apuntando. Puede ser izquierda (izq) o derecha (der)
 	var property position = game.origin()
-	const armamento=armamentoYui
-	method image() = "yui_"+ direccion +".png"
-
+	const property armamento
 	method avanzar()
 	{
 		position = self.position().right(1)
@@ -18,7 +73,7 @@ object poolYui
 		position = self.position().left(1)
 		direccion = "izq"
 	}
-//Metodos para volar y caer	
+	//Metodos para volar y caer	
 	method enElSuelo()=self.position().y()==0
 	method volar() //Sin restricción
 	{
@@ -42,25 +97,14 @@ object poolYui
 	}
 }
 
-object jugador
+
+object poolYui inherits Personaje(armamento = armamentoYui)
 {
-	const listaDePersonajes = [poolYui]
-	var personaje
-	method escogerPersonaje()
-	{
-		personaje = listaDePersonajes.get(0)
-		game.addVisual(personaje)
-	}
-	method movimiento()
-	{
-		keyboard.a().onPressDo({personaje.retroceder()})
-		keyboard.d().onPressDo({personaje.avanzar()})
-		keyboard.w().onPressDo({personaje.volar()})
-		game.onTick(500,"caida",{=> personaje.caer()})
-	}
-	method disparar()
-	{
-		keyboard.j().onPressDo({personaje.disparo1()})
-		keyboard.k().onPressDo({personaje.disparo2()})
-	}
+	method image() = "yui_"+ direccion +".png"
+
+}
+
+object zipmata inherits Personaje(armamento = armamentoZipmata)
+{
+	method image() = "char_"+direccion+".png"
 }
