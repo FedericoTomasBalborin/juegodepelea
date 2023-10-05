@@ -2,8 +2,10 @@ import wollok.game.*
 import personajes.*
 class Disparo
 {
-	const property image = "shoot.png"
 	var property position
+	const property etiquetaTickMovement = "mover"+self.toString()
+	
+	method image() = "shoot.png"
 	
 	method moverIzq()
 	{
@@ -15,98 +17,81 @@ class Disparo
 	}
 	method detenerMovimiento()
 	{
-		game.schedule(500,{game.removeTickEvent("moverse")})
+		game.schedule(500,{game.removeTickEvent(etiquetaTickMovement)})
 	}
 	
 	method evaluarComportamiento(_chara)
 	{
-		if(_chara.direccion() == "der")
-		{
-			self.comportamientoDerecha()
-		}
-		else
-		{
-			self.comportamientoIzquierda()
-		}
+		if(_chara.direccion() == "der")	{self.comportamientoDerecha()}
+		else							{self.comportamientoIzquierda()}
 	}
-	
-	
 	method comportamientoIzquierda()
 	{
-		game.onTick(50,"moverse",{=> self.moverIzq()})
+		game.onTick(75,etiquetaTickMovement,{=> self.moverIzq()})
 		self.detenerMovimiento()
 	}
 	method comportamientoDerecha()
 	{
-		game.onTick(50,"moverse",{=> self.moverDer()})
+		game.onTick(75,etiquetaTickMovement,{=> self.moverDer()})
 		self.detenerMovimiento()
 	}
 }
 
-class DisparoArriba inherits Disparo
+class DisparoVertical inherits Disparo
 {
 	method moverArriba()
 	{
 		position = self.position().up(1)
 	}
-	method comportamientoVertical()
-	{
-		game.onTick(75,"moverse",{=> self.moverArriba()})
-	}
-	override method evaluarComportamiento(_chara)
-	{
-		self.comportamientoVertical()
-		self.detenerMovimiento()
-	}
-}
-
-class DisparoAbajo inherits Disparo
-{
 	method moverAbajo()
 	{
 		position = self.position().down(1)
 	}
-	method comportamientoVertical()
+	method comportamientoArriba()
 	{
-		game.onTick(75,"moverse",{=> self.moverAbajo()})
+		game.onTick(75,etiquetaTickMovement,{=> self.moverArriba()})
+		self.detenerMovimiento()
+	}
+	method comportamientoAbajo()
+	{
+		game.onTick(75,etiquetaTickMovement,{=> self.moverAbajo()})
+		self.detenerMovimiento()
+	}
+	method comportamientoVertical(_chara)
+	{
+		if(_chara.enElSuelo())	{self.comportamientoArriba()}
+		else					{self.comportamientoAbajo()}
 	}
 	override method evaluarComportamiento(_chara)
 	{
-		self.comportamientoVertical()
-		self.detenerMovimiento()
+		self.comportamientoVertical(_chara)
 	}
 }
 
-class DisparoDiagonal inherits Disparo
+class DisparoDiagonal inherits DisparoVertical
 {
-	override method moverIzq()
+	override method evaluarComportamiento(_chara)
 	{
-		position = self.position().up(1)
-		super()
-	}
-	override method moverDer()
-	{
-		position = self.position().up(1)
-		super()
+		if(_chara.direccion() == "der")	{self.comportamientoDerecha()}
+		else							{self.comportamientoIzquierda()}
+		super(_chara)
 	}
 }
 
 class DisparoDiagonalWarped inherits DisparoDiagonal
 {
-	override method moverIzq()
+	override method moverArriba()
 	{
-		position = self.position().up(1)
-		super()
+		position = self.position().up(2)
 	}
-	override method moverDer()
+	override method moverAbajo()
 	{
-		position = self.position().up(1)
-		super()
+		position = self.position().down(2)
 	}
 }
 
 //Armamentos
-object armamentoYui
+object armamentoZipmata //ZIPmata solo dispara en diagonal y en una diagonal más empinada
 {
 	method dispararProyectil1(_chara)
 	{
@@ -125,21 +110,20 @@ object armamentoYui
 	}
 }
 
-object armamentoZipmata
+object armamentoYui //poolYui dispara de forma horizontal y vertical
 {
 	method dispararProyectil1(_chara)
 	{
-		const proyectil = new DisparoArriba(position = _chara.position())
+		const proyectil = new DisparoVertical(position = _chara.position())
 		game.addVisual(proyectil)
 		proyectil.evaluarComportamiento(_chara)
 		game.schedule(750,{=> game.removeVisual(proyectil)})
 	}
 	method dispararProyectil2(_chara)
 	{
-		const proyectil = new DisparoAbajo(position = _chara.position())
+		const proyectil = new Disparo(position = _chara.position())
 		game.addVisual(proyectil)
 		proyectil.evaluarComportamiento(_chara)
 		game.schedule(750,{=> game.removeVisual(proyectil)})
-		
 	}
 }
