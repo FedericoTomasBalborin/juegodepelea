@@ -11,17 +11,14 @@ object jugador
 		personaje = listaDePersonajes.get(0)
 		game.addVisual(personaje)
 	}
-	method movimiento()
+	method controles()
 	{
 		keyboard.a().onPressDo({personaje.retroceder()})
 		keyboard.d().onPressDo({personaje.avanzar()})
 		keyboard.w().onPressDo({personaje.volar()})
-		game.onTick(500,"caida",{=> personaje.caer()})
-	}
-	method disparar()
-	{
 		keyboard.j().onPressDo({personaje.disparo1()})
 		keyboard.k().onPressDo({personaje.disparo2()})
+		game.onTick(500,"caida",{=> personaje.caer()})
 	}
 }
 
@@ -34,15 +31,12 @@ object jugador2
 		personaje = listaDePersonajes.get(1)
 		game.addVisual(personaje)
 	}
-	method movimiento()
+	method controles()
 	{
 		keyboard.left().onPressDo({personaje.retroceder()})
 		keyboard.right().onPressDo({personaje.avanzar()})
 		keyboard.up().onPressDo({personaje.volar()})
 		game.onTick(500,"caida",{=> personaje.caer()})
-	}
-	method disparar()
-	{
 		keyboard.z().onPressDo({personaje.disparo1()})
 		keyboard.x().onPressDo({personaje.disparo2()})
 	}
@@ -72,7 +66,7 @@ class Personaje
 	{
 		position = self.position().left(1)
 		direccion = "izq"
-	}
+	}	
 	//Metodos para volar y caer	
 	method enElSuelo()=self.position().y()==0
 	method volar() //Sin restricción
@@ -100,11 +94,11 @@ class Personaje
 
 object poolYui inherits Personaje(armamento = armamentoYui)
 {
-	method image() = "yui_"+ direccion +".png"
+	method image() = "yui_" + direccion + ".png"
 
 }
 
 object zipmata inherits Personaje(armamento = armamentoZipmata)
 {
-	method image() = "char_"+direccion+".png"
+	method image() = "char_" + direccion + ".png"
 }

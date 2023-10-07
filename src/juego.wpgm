@@ -8,12 +8,9 @@ program juego
 	game.height(10)
 	game.width(20)
 	//fondo.background()
-	jugador.movimiento()
-	jugador.disparar()
+	jugador.controles()
 	jugador.escogerPersonaje()
-	
-	jugador2.movimiento()
-	jugador2.disparar()
+	jugador2.controles()
 	jugador2.escogerPersonaje()
 	game.start()
 }

@@ -1,11 +1,18 @@
 import wollok.game.*
-import personajes.*
 class Disparo
 {
 	var property position
 	const property etiquetaTickMovement = "mover"+self.toString()
-	
 	method image() = "shoot.png"
+
+	method colocarProyectil(_chara)
+	{
+		game.schedule(100,
+			{=>
+				game.addVisual(self)
+				self.evaluarComportamiento(_chara)
+			})
+	}
 	
 	method moverIzq()
 	{
@@ -15,11 +22,23 @@ class Disparo
 	{
 		position = self.position().right(1)
 	}
+	method fueraDeRango() = (not self.position().x().between(1,18) or not self.position().y().between(0,8))
+	//elimina los proyectiles fuera de rango
+	method automaticSelfDestruction()
+	{
+		if(self.fueraDeRango())
+		{
+			self.detenerMovimiento()
+		}
+	}
+
+	//Ocurre durante las colisiones
 	method detenerMovimiento()
 	{
-		game.schedule(500,{game.removeTickEvent(etiquetaTickMovement)})
+		game.removeTickEvent(etiquetaTickMovement)
+		game.removeVisual(self)
 	}
-	
+
 	method evaluarComportamiento(_chara)
 	{
 		if(_chara.direccion() == "der")	{self.comportamientoDerecha()}
@@ -27,13 +46,11 @@ class Disparo
 	}
 	method comportamientoIzquierda()
 	{
-		game.onTick(75,etiquetaTickMovement,{=> self.moverIzq()})
-		self.detenerMovimiento()
+		game.onTick(100,etiquetaTickMovement,{=> self.moverIzq()})
 	}
 	method comportamientoDerecha()
 	{
-		game.onTick(75,etiquetaTickMovement,{=> self.moverDer()})
-		self.detenerMovimiento()
+		game.onTick(100,etiquetaTickMovement,{=> self.moverDer()})
 	}
 }
 
@@ -49,13 +66,11 @@ class DisparoVertical inherits Disparo
 	}
 	method comportamientoArriba()
 	{
-		game.onTick(75,etiquetaTickMovement,{=> self.moverArriba()})
-		self.detenerMovimiento()
+		game.onTick(100,etiquetaTickMovement,{=> self.moverArriba()})
 	}
 	method comportamientoAbajo()
 	{
-		game.onTick(75,etiquetaTickMovement,{=> self.moverAbajo()})
-		self.detenerMovimiento()
+		game.onTick(100,etiquetaTickMovement,{=> self.moverAbajo()})
 	}
 	method comportamientoVertical(_chara)
 	{
@@ -70,6 +85,14 @@ class DisparoVertical inherits Disparo
 
 class DisparoDiagonal inherits DisparoVertical
 {
+	override method comportamientoDerecha()
+	{
+		game.onTick(100,etiquetaTickMovement,{=> self.moverDer()})
+	}
+	override method comportamientoIzquierda()
+	{
+		game.onTick(100,etiquetaTickMovement,{=> self.moverIzq()})
+	}
 	override method evaluarComportamiento(_chara)
 	{
 		if(_chara.direccion() == "der")	{self.comportamientoDerecha()}
@@ -96,17 +119,14 @@ object armamentoZipmata //ZIPmata solo dispara en diagonal y en una diagonal má
 	method dispararProyectil1(_chara)
 	{
 		const proyectil = new DisparoDiagonal(position = _chara.position())
-		game.addVisual(proyectil)
-		proyectil.evaluarComportamiento(_chara)
-		game.schedule(750,{=> game.removeVisual(proyectil)})
+		proyectil.colocarProyectil(_chara)
+		game.schedule(1000,{proyectil.automaticSelfDestruction()})
 	}
 	method dispararProyectil2(_chara)
 	{
 		const proyectil = new DisparoDiagonalWarped(position = _chara.position())
-		game.addVisual(proyectil)
-		proyectil.evaluarComportamiento(_chara)
-		game.schedule(750,{=> game.removeVisual(proyectil)})
-		
+		proyectil.colocarProyectil(_chara)
+		game.schedule(1000,{proyectil.automaticSelfDestruction()})
 	}
 }
 
@@ -114,16 +134,14 @@ object armamentoYui //poolYui dispara de forma horizontal y vertical
 {
 	method dispararProyectil1(_chara)
 	{
-		const proyectil = new DisparoVertical(position = _chara.position())
-		game.addVisual(proyectil)
-		proyectil.evaluarComportamiento(_chara)
-		game.schedule(750,{=> game.removeVisual(proyectil)})
+		const proyectil = new Disparo(position = _chara.position())
+		proyectil.colocarProyectil(_chara)
+		game.schedule(1000,{proyectil.automaticSelfDestruction()})
 	}
 	method dispararProyectil2(_chara)
 	{
-		const proyectil = new Disparo(position = _chara.position())
-		game.addVisual(proyectil)
-		proyectil.evaluarComportamiento(_chara)
-		game.schedule(750,{=> game.removeVisual(proyectil)})
+		const proyectil = new DisparoVertical(position = _chara.position())
+		proyectil.colocarProyectil(_chara)
+		game.schedule(1000,{proyectil.automaticSelfDestruction()})
 	}
 }
