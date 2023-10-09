@@ -38,8 +38,8 @@ class Disparo
 
 	method evaluarComportamiento(_chara)
 	{
-		if(_chara.direccion() == "der")	{self.comportamientoDerecha()}
-		else							{self.comportamientoIzquierda()}
+		if(_chara.direccion() == "der"){self.comportamientoDerecha()}
+		else{self.comportamientoIzquierda()}
 	}
 	method comportamientoIzquierda()
 	{
@@ -72,7 +72,7 @@ class DisparoVertical inherits Disparo
 	method comportamientoVertical(_chara)
 	{
 		if(_chara.enElSuelo())	{self.comportamientoArriba()}
-		else					{self.comportamientoAbajo()}
+		else	{self.comportamientoAbajo()}
 	}
 	override method evaluarComportamiento(_chara)
 	{
