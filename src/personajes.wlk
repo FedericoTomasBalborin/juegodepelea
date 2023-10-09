@@ -5,10 +5,13 @@ import proyectiles.*
 object jugador
 {
 	const listaDePersonajes = [poolYui,zipmata]
+	const posicionInicial = game.origin()
 	var personaje
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(0)
+		personaje.position(posicionInicial)
+		personaje.direccion("der")
 		game.addVisual(personaje)
 	}
 	method controles()
@@ -25,10 +28,13 @@ object jugador
 object jugador2
 {
 	const listaDePersonajes = [poolYui,zipmata]
+	const posicionInicial = game.at(game.width()-1,0)
 	var personaje
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(1)
+		personaje.position(posicionInicial)
+		personaje.direccion("izq")
 		game.addVisual(personaje)
 	}
 	method controles()
