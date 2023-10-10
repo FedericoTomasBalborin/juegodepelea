@@ -4,7 +4,7 @@ class Disparo
 	var property position
 	const property etiquetaTickMovement = "mover"+self.toString()
 	method image() = "shoot.png"
-
+	method subir(personaje){}
 	method colocarProyectil(_chara)
 	{
 		game.schedule(100,

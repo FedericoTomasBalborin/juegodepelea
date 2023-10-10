@@ -4,12 +4,12 @@ import proyectiles.*
 //JUGADORES
 object jugador1
 {
-	const listaDePersonajes = [poolYui,zipmata]
+	const listaDePersonajes = [new PoolYui(),new Zipmata()]
 	const posicionInicial = game.origin()
-	var personaje
+	var property personaje
 	method escogerPersonaje()
 	{
-		personaje = listaDePersonajes.get(0)
+		personaje = listaDePersonajes.get(1)
 		personaje.position(posicionInicial)
 		personaje.direccion("der")
 		game.addVisual(personaje)
@@ -27,9 +27,9 @@ object jugador1
 
 object jugador2
 {
-	const listaDePersonajes = [poolYui,zipmata]
+	const listaDePersonajes = [new PoolYui(),new Zipmata()]
 	const posicionInicial = game.at(game.width()-1,0)
-	var personaje
+	var property personaje
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(1)
@@ -63,7 +63,6 @@ class Personaje
 	var property direccion = "der" //La orientacion a donde el personaje esta apuntando. Puede ser izquierda (izq) o derecha (der)
 	var property position = game.origin()
 	const property armamento
-	var property image
 	method avanzar()
 	{
 		position = self.position().right(1)
@@ -99,13 +98,13 @@ class Personaje
 }
 
 
-object poolYui inherits Personaje(armamento = armamentoYui)
+class PoolYui inherits Personaje(armamento = armamentoYui)
 {
 	method image() = "yui_" + direccion + ".png"
 
 }
 
-object zipmata inherits Personaje(armamento = armamentoZipmata)
+class Zipmata inherits Personaje(armamento = armamentoZipmata)
 {
 	method image() = "char_" + direccion + ".png"
 }

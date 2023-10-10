@@ -1,5 +1,6 @@
 import wollok.game.*
 import personajes.*
+import plataformas.*
 
 class Fondo{
 	const property position = game.origin()
@@ -59,9 +60,9 @@ object instrucciones{
 }
 
 object seleccionPersonajes{
-	var property zela = new Personaje(position=game.at(5,4),image="zela.png", armamento = null)
-	var property morh = new Personaje(position=game.at(7,4),image="morh.png", armamento = null)
-	var property asta = new Personaje(position=game.at(9,4),image="asta.png", armamento = null)
+	var property zela = new Personaje(position=game.at(5,4), armamento = null)
+	var property morh = new Personaje(position=game.at(7,4), armamento = null)
+	var property asta = new Personaje(position=game.at(9,4), armamento = null)
 	
 	var property marco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10, seleccion = null)
 	var property marco2 = new Marco(position = game.at(7,4), image = "marco2.png", x1 = 5, x2 = 10, seleccion = null)
@@ -121,10 +122,16 @@ object seleccionPersonajes{
 }
 
 object nivel1{
-	method iniciar(){
+	method iniciar()
+	{
 		game.clear()
-		keyboard.enter().onPressDo{null}
-		game.addVisual(jugador1)
-		game.addVisual(jugador2)
+		escenarioUno.creoPlataformas()
+		jugador1.controles()
+		jugador1.escogerPersonaje()
+		jugador2.controles()
+		jugador2.escogerPersonaje()
+		game.onCollideDo(jugador1.personaje(),{piso => piso.subir(jugador1.personaje())})
+		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})
+	
 	}
 }

@@ -8,11 +8,6 @@ program juego
 	game.title("Extreme Shooters")
 	game.height(10)
 	game.width(20)
-	//fondo.background()
-//	jugador.controles()
-//	jugador.escogerPersonaje()
-//	jugador2.controles()
-//	jugador2.escogerPersonaje()
 	portada.iniciar()
 	game.start()
 }
