@@ -7,6 +7,7 @@ object jugador
 	const listaDePersonajes = [poolYui,zipmata]
 	const posicionInicial = game.origin()
 	var personaje
+	var property vida = 80
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(0)
@@ -30,6 +31,7 @@ object jugador2
 	const listaDePersonajes = [poolYui,zipmata]
 	const posicionInicial = game.at(game.width()-1,0)
 	var personaje
+	var property vida = 100
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(1)

@@ -1,6 +1,7 @@
 import wollok.game.*
 import plataformas.*
 import personajes.*
+import extras.*
 
 program juego
 {
@@ -12,5 +13,7 @@ program juego
 	jugador.escogerPersonaje()
 	jugador2.controles()
 	jugador2.escogerPersonaje()
+	game.addVisualIn(vida, game.at(1, 9))
+	game.addVisualIn(vida2, game.at(17, 9))
 	game.start()
 }

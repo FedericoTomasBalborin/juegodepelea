@@ -1,4 +1,5 @@
 import wollok.game.*
+import extras.*
 object fondo
 {
 	const image = "fondo.jpg"
