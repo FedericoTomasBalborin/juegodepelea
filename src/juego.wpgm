@@ -15,8 +15,6 @@ program juego
 	jugador2.movimiento()
 	jugador2.disparar()
 	jugador2.escogerPersonaje()
-	
-	
-	nivel1 = new EscenarioUno
+	escenarioUno.creoPlataformas()
 	game.start()
 }

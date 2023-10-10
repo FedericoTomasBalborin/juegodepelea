@@ -14,15 +14,15 @@ object fondo
 
 class Plataforma {
 	
-	const property imagep = "assets/plataforma.png"
-	const property position
+	const property image = "plataforma.png"
+	var property position = game.origin()
 	
 }
 
 class Nivel inherits Plataforma{
 	
 	var property plataformas = []
-	var property plataforma
+//	var property plataforma
 	
 	
 	
@@ -34,34 +34,25 @@ class Nivel inherits Plataforma{
 	
 	
 	method crearPlataforma(inicio,fin,altura){	//agregar un parametro mas en caso de que hayan otros estilos de plataforma
-		(inicio..fin).forEach({numero => plataformas.add(new Plataforma(imagep="assets/plataforma.png",position=game.at(numero,altura)))})
+		(inicio..fin).forEach({numero => plataformas.add(new Plataforma(position=game.at(numero,altura)))})
 	}
 	
-	method crearPlataformas(){}
-	
-	
-		
 	method nuevoSuelo(){
-		plataformas.forEach({p => game.addVisual(imagep)})
+		plataformas.forEach({p => game.addVisual(p)})
 			
 	}
 	
 }
 
 
-object escenarioUno inherits Nivel{
-//	override method 
-	
-
-
-	
-	method creoPlataformas(){
-		
+object escenarioUno inherits Nivel
+{
+	method creoPlataformas()
+	{
 		self.crearPlataforma(0,15,0)
-		self.nuevoSuelo()
+//		self.nuevoSuelo()
 		self.crearPlataforma(5,10,5)
 		self.nuevoSuelo()
-		
 	}
 //	override method crearEscaleras(){ PARA CREAR ESCALERAS MAS ADELANTE
 //		self.crearEscalera(1,5,4)
