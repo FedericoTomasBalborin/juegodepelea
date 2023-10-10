@@ -16,6 +16,10 @@ class Plataforma {
 	
 	const property image = "plataforma.png"
 	var property position = game.origin()
+	method subir(personaje)
+	{
+		personaje.position(personaje.position().up(1))
+	}
 	
 }
 
@@ -49,7 +53,7 @@ object escenarioUno inherits Nivel
 {
 	method creoPlataformas()
 	{
-		self.crearPlataforma(0,15,0)
+		self.crearPlataforma(0,game.width(),0)
 //		self.nuevoSuelo()
 		self.crearPlataforma(5,10,5)
 		self.nuevoSuelo()

@@ -5,44 +5,38 @@ import proyectiles.*
 object jugador
 {
 	const listaDePersonajes = [poolYui,zipmata]
-	var personaje
+	var property personaje
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(0)
 		game.addVisual(personaje)
 	}
-	method movimiento()
+	method controles()
 	{
-		keyboard.a().onPressDo({personaje.retroceder()})
-		keyboard.d().onPressDo({personaje.avanzar()})
-		keyboard.w().onPressDo({personaje.volar()})
+		keyboard.left().onPressDo({personaje.retroceder()})
+		keyboard.right().onPressDo({personaje.avanzar()})
+		keyboard.up().onPressDo({personaje.volar()})
 		game.onTick(500,"caida",{=> personaje.caer()})
-	}
-	method disparar()
-	{
-		keyboard.j().onPressDo({personaje.disparo1()})
-		keyboard.k().onPressDo({personaje.disparo2()})
+		keyboard.z().onPressDo({personaje.disparo1()})
+		keyboard.x().onPressDo({personaje.disparo2()})
 	}
 }
 
 object jugador2
 {
 	const listaDePersonajes = [poolYui,zipmata]
-	var personaje
+	var property personaje
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(1)
 		game.addVisual(personaje)
 	}
-	method movimiento()
+	method controles()
 	{
 		keyboard.left().onPressDo({personaje.retroceder()})
 		keyboard.right().onPressDo({personaje.avanzar()})
 		keyboard.up().onPressDo({personaje.volar()})
 		game.onTick(500,"caida",{=> personaje.caer()})
-	}
-	method disparar()
-	{
 		keyboard.z().onPressDo({personaje.disparo1()})
 		keyboard.x().onPressDo({personaje.disparo2()})
 	}
@@ -86,7 +80,7 @@ class Personaje
 		 	position = self.position().down(1)
 		 }
 	}
-	
+	method subir(personaje){}
 	method disparo1()
 	{
 		armamento.dispararProyectil1(self)
