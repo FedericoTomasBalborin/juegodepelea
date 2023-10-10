@@ -2,7 +2,7 @@ import wollok.game.*
 import proyectiles.*
 
 //JUGADORES
-object jugador
+object jugador1
 {
 	const listaDePersonajes = [poolYui,zipmata]
 	const posicionInicial = game.origin()
@@ -63,6 +63,7 @@ class Personaje
 	var property direccion = "der" //La orientacion a donde el personaje esta apuntando. Puede ser izquierda (izq) o derecha (der)
 	var property position = game.origin()
 	const property armamento
+	var property image
 	method avanzar()
 	{
 		position = self.position().right(1)
