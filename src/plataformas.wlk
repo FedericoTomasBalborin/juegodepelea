@@ -54,8 +54,7 @@ object escenarioUno inherits Nivel
 	method creoPlataformas()
 	{
 		self.crearPlataforma(0,game.width(),0)
-//		self.nuevoSuelo()
-		self.crearPlataforma(5,10,5)
+		self.crearPlataforma(game.center().x()-2,game.center().x()+2,5)
 		self.nuevoSuelo()
 	}
 //	override method crearEscaleras(){ PARA CREAR ESCALERAS MAS ADELANTE

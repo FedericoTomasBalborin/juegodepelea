@@ -60,8 +60,8 @@ object instrucciones{
 }
 
 object seleccionPersonajes{
-	var property zela = new Personaje(position=game.at(5,4), armamento = null)
-	var property morh = new Personaje(position=game.at(7,4), armamento = null)
+	var property zela = new PoolYui(position=game.at(5,4), armamento = null)
+	var property morh = new Zipmata(position=game.at(7,4), armamento = null)
 	var property asta = new Personaje(position=game.at(9,4), armamento = null)
 	
 	var property marco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10, seleccion = null)
@@ -121,7 +121,8 @@ object seleccionPersonajes{
 	}	
 }
 
-object nivel1{
+object nivel1
+{
 	method iniciar()
 	{
 		game.clear()
@@ -131,7 +132,6 @@ object nivel1{
 		jugador2.controles()
 		jugador2.escogerPersonaje()
 		game.onCollideDo(jugador1.personaje(),{piso => piso.subir(jugador1.personaje())})
-		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})
-	
+		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})	
 	}
 }

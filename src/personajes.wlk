@@ -6,10 +6,11 @@ object jugador1
 {
 	const listaDePersonajes = [new PoolYui(),new Zipmata()]
 	const posicionInicial = game.origin()
+	var property vida = 100
 	var property personaje
 	method escogerPersonaje()
 	{
-		personaje = listaDePersonajes.get(1)
+		personaje = listaDePersonajes.get(0)
 		personaje.position(posicionInicial)
 		personaje.direccion("der")
 		game.addVisual(personaje)
@@ -68,6 +69,7 @@ class Personaje
 		position = self.position().right(1)
 		direccion = "der"
 	}
+	method subir(personaje){}
 	method retroceder()
 	{
 		position = self.position().left(1)
