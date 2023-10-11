@@ -1,6 +1,7 @@
 import wollok.game.*
 import personajes.*
 import plataformas.*
+import extras.*
 
 class Fondo{
 	const property position = game.origin()
@@ -92,6 +93,7 @@ object seleccionPersonajes{
 		keyboard.a().onPressDo{if (marco1.movimiento()){marco1.irAizquierda(marco1.position().left(2))}	}
 		keyboard.d().onPressDo{if (marco1.movimiento()) {marco1.irAderecha(marco1.position().right(2))}}
 		keyboard.e().onPressDo{if (marco1.movimiento()){
+			//Meter esto en un metodo
 								if (not (marco1.position()==marco2.position())) {
 									marco1.bloquearMovimiento()
 									marco1.seleccionar(game.uniqueCollider(marco1))
@@ -121,6 +123,27 @@ object seleccionPersonajes{
 	}	
 }
 
+
+object colisiones
+{
+	method validar()
+	{
+		game.onCollideDo(jugador1.personaje(),{piso => piso.subir(jugador1.personaje())})
+		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})
+		//agregar collides de los poderes
+	}
+}
+
+
+object visualesGeneral
+{
+	method agregar()
+	{
+		game.addVisualIn(vida, game.at(1, 9))
+		game.addVisualIn(vida2, game.at(17, 9))
+	}
+}
+
 object nivel1
 {
 	method iniciar()
@@ -131,7 +154,7 @@ object nivel1
 		jugador1.escogerPersonaje()
 		jugador2.controles()
 		jugador2.escogerPersonaje()
-		game.onCollideDo(jugador1.personaje(),{piso => piso.subir(jugador1.personaje())})
-		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})	
+		visualesGeneral.agregar()
+		colisiones.validar()
 	}
 }

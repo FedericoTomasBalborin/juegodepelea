@@ -110,6 +110,8 @@ class DisparoDiagonalInferior inherits DisparoDiagonal
 }
 
 //Armamentos
+
+// hacer una herencia
 object armamentoZipmata //ZIPmata solo dispara en diagonal y en una diagonal más empinada
 {
 	method dispararProyectil1(_chara)

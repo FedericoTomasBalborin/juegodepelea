@@ -4,10 +4,9 @@ import proyectiles.*
 //JUGADORES
 object jugador1
 {
-	const listaDePersonajes = [new PoolYui(),new Zipmata()]
-	const posicionInicial = game.origin()
-	var property vida = 100
+	const listaDePersonajes = [new PoolYui(),new Zipmata()]	const posicionInicial = game.origin()
 	var property personaje
+	var property vida = 80
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(0)
@@ -31,6 +30,7 @@ object jugador2
 	const listaDePersonajes = [new PoolYui(),new Zipmata()]
 	const posicionInicial = game.at(game.width()-1,0)
 	var property personaje
+	var property vida = 100
 	method escogerPersonaje()
 	{
 		personaje = listaDePersonajes.get(1)
