@@ -1,0 +1,58 @@
+import wollok.game.*
+import niveles.*
+import personajes.*
+
+describe "Eligiendo un escenario" {
+	
+	const bosque 	= new Escenario(position = game.at(2,3), image = "bosqueSmall.png" )
+	const desierto = new Escenario(position = game.at(6,3), image = "desiertoSmall.png")
+	const castillo = new Escenario(position = game.at(10,3), image = "castilloSmall.png")
+	const futuro 	= new Escenario(position = game.at(14,3), image = "futureSmall.png")
+	
+	const marco1   = new Marco(position = game.at(2,3), image = "marco3.png", x1 = 2, x2 = 16)
+	var   cualFondo
+		
+	test "Se elige al escenario Bosque" {
+		game.addVisual(bosque)
+		game.addVisual(desierto)
+		game.addVisual(castillo)
+		game.addVisual(futuro)
+		game.addVisual(marco1)
+		
+		cualFondo = game.uniqueCollider(marco1)
+		game.boardGround("bosque.png")
+	    
+		assert.equals(cualFondo.image().toString().replace("Small", ""),"bosque.png")
+		assert.equals(cualFondo,bosque)
+	}	
+	
+}
+
+describe "Eligiendo a un personaje" {
+	
+	const P1 = new PoolYui(position=game.at(5,4))
+	const P2 = new Zipmata(position=game.at(7,4))
+	const marco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10)
+	const marco2 = new Marco(position = game.at(7,4), image = "marco2.png", x1 = 5, x2 = 10)
+	var   quienJugador1 
+	var   quienJugador2
+	
+	test "Jugador #1 elige a P1" {
+		game.addVisual(P1)
+		game.addVisual(marco1)
+		quienJugador1 = game.uniqueCollider(marco1)
+		
+		assert.equals(quienJugador1.image(),"yui_der.png")
+		assert.equals(quienJugador1,P1)
+	}
+	
+	test "Jugador #2 elige a P2" {
+		game.addVisual(P2)
+		game.addVisual(marco2)
+		quienJugador2 = game.uniqueCollider(marco2)
+		
+		assert.equals(quienJugador2.image(),"char_der.png")
+		assert.equals(quienJugador2,P2)
+	}
+
+}
