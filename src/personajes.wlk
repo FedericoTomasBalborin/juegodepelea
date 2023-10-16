@@ -14,8 +14,8 @@ object jugador1
 		keyboard.a().onPressDo({personaje.retroceder()})
 		keyboard.d().onPressDo({personaje.avanzar()})
 		keyboard.w().onPressDo({personaje.volar()})
-		keyboard.j().onPressDo({personaje.disparo1()})
-		keyboard.k().onPressDo({personaje.disparo2()})
+		keyboard.z().onPressDo({personaje.disparo1()})
+		keyboard.x().onPressDo({personaje.disparo2()})
 		game.onTick(500,"caida",{=> personaje.caer()})
 	}
 	
@@ -37,8 +37,8 @@ object jugador2
 		keyboard.right().onPressDo({personaje.avanzar()})
 		keyboard.up().onPressDo({personaje.volar()})
 		game.onTick(500,"caida",{=> personaje.caer()})
-		keyboard.z().onPressDo({personaje.disparo1()})
-		keyboard.x().onPressDo({personaje.disparo2()})
+		keyboard.j().onPressDo({personaje.disparo1()})
+		keyboard.k().onPressDo({personaje.disparo2()})
 	}
 	
 	method asignarPersonaje() {
