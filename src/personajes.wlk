@@ -1,19 +1,22 @@
 import wollok.game.*
 import proyectiles.*
+import niveles.*
 
 //JUGADORES
 object jugador1
 {
-	const listaDePersonajes = [new PoolYui(),new Zipmata()]	const posicionInicial = game.origin()
+//	const listaDePersonajes = [new PoolYui(),new Zipmata()]	const posicionInicial = game.origin()
 	var property personaje
 	var property vida = 80
-	method escogerPersonaje()
-	{
-		personaje = listaDePersonajes.get(0)
-		personaje.position(posicionInicial)
-		personaje.direccion("der")
-		game.addVisual(personaje)
-	}
+	var property position = game.at(0,1)
+	var property image 
+//	method escogerPersonaje()
+//	{
+//		personaje = listaDePersonajes.get(0)
+//		personaje.position(posicionInicial)
+//		personaje.direccion("der")
+//		game.addVisual(personaje)
+//	}
 	method controles()
 	{
 		keyboard.a().onPressDo({personaje.retroceder()})
@@ -23,21 +26,28 @@ object jugador1
 		keyboard.k().onPressDo({personaje.disparo2()})
 		game.onTick(500,"caida",{=> personaje.caer()})
 	}
+	
+	method asignarPersonaje() {
+		image = seleccionPersonajes.quienJugador1().image().toString()
+		personaje = seleccionPersonajes.quienJugador1()
+	}
 }
 
 object jugador2
 {
-	const listaDePersonajes = [new PoolYui(),new Zipmata()]
-	const posicionInicial = game.at(game.width()-1,0)
+//	const listaDePersonajes = [new PoolYui(),new Zipmata()]
+//	const posicionInicial = game.at(game.width()-1,0)
 	var property personaje
 	var property vida = 100
-	method escogerPersonaje()
-	{
-		personaje = listaDePersonajes.get(1)
-		personaje.position(posicionInicial)
-		personaje.direccion("izq")
-		game.addVisual(personaje)
-	}
+	var property position = game.at(19,1)
+	var property image 
+//	method escogerPersonaje()
+//	{
+//		personaje = listaDePersonajes.get(1)
+//		personaje.position(posicionInicial)
+//		personaje.direccion("izq")
+//		game.addVisual(personaje)
+//	}
 	method controles()
 	{
 		keyboard.left().onPressDo({personaje.retroceder()})
@@ -46,6 +56,11 @@ object jugador2
 		game.onTick(500,"caida",{=> personaje.caer()})
 		keyboard.z().onPressDo({personaje.disparo1()})
 		keyboard.x().onPressDo({personaje.disparo2()})
+	}
+	
+	method asignarPersonaje() {
+		image = seleccionPersonajes.quienJugador2().image().toString()
+		personaje = seleccionPersonajes.quienJugador2()
 	}
 }
 
