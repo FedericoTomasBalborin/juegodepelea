@@ -3,9 +3,11 @@ import personajes.*
 import plataformas.*
 import extras.*
 
-class Fondo{
+class Fondo
+{
 	const property position = game.origin()
-	var property image 
+	var property image
+	method subir(parametro){}
 }
 
 class Marco{
@@ -101,9 +103,9 @@ object seleccionEscenarios{
 }
 
 object seleccionPersonajes{
-	var property p1 = new PoolYui(position=game.at(5,4), armamento = null)
-	var property p2 = new Zipmata(position=game.at(7,4), armamento = null)
-//	var property asta = new Personaje(position=game.at(9,4), armamento = null)
+	var property p1 = new PoolYui(position=game.at(5,4))
+	var property p2 = new Zipmata(position=game.at(7,4))
+	var property p3 = new TankFlan(position=game.at(9,4))
 	
 	var property marco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10)
 	var property marco2 = new Marco(position = game.at(7,4), image = "marco2.png", x1 = 5, x2 = 10)
@@ -126,7 +128,7 @@ object seleccionPersonajes{
 		game.addVisual(new Fondo(image="seleccion.png"))
 		game.addVisual(p1)
 		game.addVisual(p2)
-//		game.addVisual(asta)
+		game.addVisual(p3)
 		game.addVisual(marco1)//y agregamos marcos ya que estamos
 		game.addVisual(marco2)
 	}
@@ -180,6 +182,8 @@ object visualesGeneral
 {
 	method agregar()
 	{
+		game.addVisual(jugador1.personaje())
+		game.addVisual(jugador2.personaje())
 		game.addVisualIn(vida, game.at(1, 9))
 		game.addVisualIn(vida2, game.at(17, 9))
 	}
@@ -189,18 +193,14 @@ object nivel1
 {
 	method iniciar()
 	{
-		game.clear()
-		
 		self.asignarPersonajes()
+		game.clear()
 		game.addVisual(new Fondo(image=seleccionEscenarios.cualFondo().image().toString().replace("Small", "")))
 		
 		escenarioUno.creoPlataformas()
-		game.addVisual(jugador1)
-		game.addVisual(jugador2)
-		
+		visualesGeneral.agregar()
 		jugador1.controles()
 		jugador2.controles()
-		visualesGeneral.agregar()
 		colisiones.validar()
 	}
 	

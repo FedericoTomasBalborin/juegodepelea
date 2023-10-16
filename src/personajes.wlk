@@ -1,22 +1,14 @@
 import wollok.game.*
 import proyectiles.*
+import plataformas.*
 import niveles.*
 
 //JUGADORES
 object jugador1
 {
-//	const listaDePersonajes = [new PoolYui(),new Zipmata()]	const posicionInicial = game.origin()
 	var property personaje
 	var property vida = 80
-	var property position = game.at(0,1)
-	var property image 
-//	method escogerPersonaje()
-//	{
-//		personaje = listaDePersonajes.get(0)
-//		personaje.position(posicionInicial)
-//		personaje.direccion("der")
-//		game.addVisual(personaje)
-//	}
+	var property posicionInicial = game.at(0,1)
 	method controles()
 	{
 		keyboard.a().onPressDo({personaje.retroceder()})
@@ -28,26 +20,17 @@ object jugador1
 	}
 	
 	method asignarPersonaje() {
-		image = seleccionPersonajes.quienJugador1().image().toString()
 		personaje = seleccionPersonajes.quienJugador1()
+		personaje.position(posicionInicial)
+		personaje.direccion("der")
 	}
 }
 
 object jugador2
 {
-//	const listaDePersonajes = [new PoolYui(),new Zipmata()]
-//	const posicionInicial = game.at(game.width()-1,0)
+	const posicionInicial = game.at(game.width()-1,0)
 	var property personaje
 	var property vida = 100
-	var property position = game.at(19,1)
-	var property image 
-//	method escogerPersonaje()
-//	{
-//		personaje = listaDePersonajes.get(1)
-//		personaje.position(posicionInicial)
-//		personaje.direccion("izq")
-//		game.addVisual(personaje)
-//	}
 	method controles()
 	{
 		keyboard.left().onPressDo({personaje.retroceder()})
@@ -59,8 +42,9 @@ object jugador2
 	}
 	
 	method asignarPersonaje() {
-		image = seleccionPersonajes.quienJugador2().image().toString()
 		personaje = seleccionPersonajes.quienJugador2()
+		personaje.direccion("izq")
+		personaje.position(posicionInicial)
 	}
 }
 
@@ -84,15 +68,15 @@ class Personaje
 		position = self.position().right(1)
 		direccion = "der"
 	}
-	method subir(personaje){}
+	method subir(algo){}
 	method retroceder()
 	{
 		position = self.position().left(1)
 		direccion = "izq"
 	}	
 	//Metodos para volar y caer	
-	method enElSuelo()=self.position().y()==0
-	method volar() //Sin restricción
+	method enElSuelo()= self.position().y()==1
+	method volar()
 	{
 		position = self.position().up(2)
 	}
@@ -124,4 +108,9 @@ class PoolYui inherits Personaje(armamento = armamentoYui)
 class Zipmata inherits Personaje(armamento = armamentoZipmata)
 {
 	method image() = "char_" + direccion + ".png"
+}
+
+class TankFlan inherits Personaje(armamento = armamentoThirdGuy)
+{
+	method image() = "flan_" + direccion + ".png"
 }

@@ -4,14 +4,11 @@ class Disparo
 	var property position
 	const property etiquetaTickMovement = "mover"+self.toString()
 	method image() = "shoot.png"
-	method subir(personaje){}
 	method colocarProyectil(_chara)
 	{
 		game.schedule(100,
-			{=>
-				game.addVisual(self)
-				self.evaluarComportamiento(_chara)
-			})
+			{=> game.addVisual(self)
+				self.evaluarComportamiento(_chara)})
 	}
 	
 	method moverIzq()
@@ -23,23 +20,26 @@ class Disparo
 		position = self.position().right(1)
 	}
 	
-	//Si un proyectil no colisiona, se autodestruye
-	method automaticSelfDestruction()
-	{
-			game.schedule(1000,{self.detenerMovimiento()})
-	}
-
-	//Ocurre durante las colisiones
+	//Detiene el movimiento de los proyectiles, se usa cuando colisiona con los personajes
 	method detenerMovimiento()
 	{
 		game.removeTickEvent(etiquetaTickMovement)
 		game.removeVisual(self)
 	}
-
+	
+	//Si un proyectil no colisiona, se autodestruye en 1000 ticks
+	method automaticSelfDestruction()
+	{
+			game.schedule(1000,{self.detenerMovimiento()})
+	}
+	
+	
 	method evaluarComportamiento(_chara)
 	{
-		if(_chara.direccion() == "der"){self.comportamientoDerecha()}
-		else{self.comportamientoIzquierda()}
+		if(_chara.direccion() == "der")
+			{self.comportamientoDerecha()}
+		else
+			{self.comportamientoIzquierda()}
 	}
 	method comportamientoIzquierda()
 	{
@@ -49,6 +49,7 @@ class Disparo
 	{
 		game.onTick(100,etiquetaTickMovement,{=> self.moverDer()})
 	}
+	method subir(personaje){}
 }
 
 class DisparoVertical inherits Disparo
@@ -78,6 +79,7 @@ class DisparoVertical inherits Disparo
 	{
 		self.comportamientoVertical(_chara)
 	}
+	
 }
 
 class DisparoDiagonal inherits DisparoVertical
@@ -109,37 +111,55 @@ class DisparoDiagonalInferior inherits DisparoDiagonal
 	}
 }
 
-//Armamentos
 
-// hacer una herencia
-object armamentoZipmata //ZIPmata solo dispara en diagonal y en una diagonal más empinada
+
+//Armamentos
+class Armamento
 {
-	method dispararProyectil1(_chara)
+	method dispararProyectil(_chara,proyectil)
 	{
-		const proyectil = new DisparoDiagonal(position = _chara.position())
-		proyectil.colocarProyectil(_chara)
-		proyectil.automaticSelfDestruction()
-	}
-	method dispararProyectil2(_chara)
-	{
-		const proyectil = new DisparoDiagonalInferior(position = _chara.position())
 		proyectil.colocarProyectil(_chara)
 		proyectil.automaticSelfDestruction()
 	}
 }
 
-object armamentoYui //poolYui dispara de forma horizontal y vertical
+object armamentoZipmata inherits Armamento
+{
+	method dispararProyectil1(_chara)
+	{
+		const proyectil = new DisparoDiagonal(position = _chara.position())
+		self.dispararProyectil(_chara,proyectil)
+	}
+	method dispararProyectil2(_chara)
+	{
+		const proyectil = new DisparoDiagonalInferior(position = _chara.position())
+		self.dispararProyectil(_chara,proyectil)
+	}
+}
+
+object armamentoYui inherits Armamento
 {
 	method dispararProyectil1(_chara)
 	{
 		const proyectil = new Disparo(position = _chara.position())
-		proyectil.colocarProyectil(_chara)
-		proyectil.automaticSelfDestruction()
+		self.dispararProyectil(_chara,proyectil)
 	}
 	method dispararProyectil2(_chara)
 	{
 		const proyectil = new DisparoVertical(position = _chara.position())
-		proyectil.colocarProyectil(_chara)
-		proyectil.automaticSelfDestruction()
+		self.dispararProyectil(_chara,proyectil)
+	}
+}
+object armamentoThirdGuy inherits Armamento
+{
+	method dispararProyectil1(_chara)
+	{
+		const proyectil = new Disparo(position = _chara.position())
+		self.dispararProyectil(_chara,proyectil)
+	}
+	method dispararProyectil2(_chara)
+	{
+		const proyectil = new DisparoDiagonal(position = _chara.position())
+		self.dispararProyectil(_chara,proyectil)
 	}
 }
