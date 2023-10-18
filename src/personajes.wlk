@@ -7,7 +7,7 @@ import niveles.*
 object jugador1
 {
 	var property personaje
-	var property vida = 80
+	var property vida = 100
 	var property posicionInicial = game.at(0,1)
 	method controles()
 	{
@@ -21,8 +21,14 @@ object jugador1
 	
 	method asignarPersonaje() {
 		personaje = seleccionPersonajes.quienJugador1()
+		personaje.jugador(self)
 		personaje.position(posicionInicial)
 		personaje.direccion("der")
+	}
+	
+	method recibeDanio(danioDisparo)
+	{
+		vida -= danioDisparo
 	}
 }
 
@@ -43,8 +49,13 @@ object jugador2
 	
 	method asignarPersonaje() {
 		personaje = seleccionPersonajes.quienJugador2()
+		personaje.jugador(self)
 		personaje.direccion("izq")
 		personaje.position(posicionInicial)
+	}
+	method recibeDanio(danioDisparo)
+	{
+		vida -= danioDisparo
 	}
 }
 
@@ -63,6 +74,7 @@ class Personaje
 	var property direccion = "der" //La orientacion a donde el personaje esta apuntando. Puede ser izquierda (izq) o derecha (der)
 	var property position = game.origin()
 	const property armamento
+	var property jugador
 	method avanzar()
 	{
 		position = self.position().right(1)
@@ -95,6 +107,12 @@ class Personaje
 	method disparo2()
 	{
 		armamento.dispararProyectil2(self)
+	}
+	
+	method recibirDanio(disparo)
+	{
+		game.say(self,"lol, shooted")
+		jugador.recibeDanio(disparo.danio())
 	}
 }
 

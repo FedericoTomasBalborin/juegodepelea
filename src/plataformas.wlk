@@ -5,9 +5,13 @@ import wollok.game.*
 object fondo
 {
 	const image = "fondo.jpg"
+	const sonidoDeFondo = game.sound("blaster.mp3")
 	method background()
 	{
+		sonidoDeFondo.play()
+		sonidoDeFondo.shouldLoop(true)
 		game.boardGround(image)
+		
 	}
 }
 

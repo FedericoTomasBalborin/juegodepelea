@@ -2,13 +2,20 @@ import wollok.game.*
 class Disparo
 {
 	var property position
-	const property etiquetaTickMovement = "mover"+self.toString()
+	const property etiquetaTickMovement = "mover"+self.toString()  
+	method danio() = 10
 	method image() = "shoot.png"
+	method sonido(sonidoDeFondo)
+	{
+		game.sound(sonidoDeFondo).shouldLoop(false)
+		game.sound(sonidoDeFondo).play()
+	}
 	method colocarProyectil(_chara)
 	{
+		self.evaluarComportamiento(_chara)
 		game.schedule(100,
-			{=> game.addVisual(self)
-				self.evaluarComportamiento(_chara)})
+			{=>	game.addVisual(self)
+				self.sonido("blaster.mp3")})
 	}
 	
 	method moverIzq()
@@ -36,6 +43,7 @@ class Disparo
 	
 	method evaluarComportamiento(_chara)
 	{
+//		_chara.direccion().comportamineto()
 		if(_chara.direccion() == "der")
 			{self.comportamientoDerecha()}
 		else

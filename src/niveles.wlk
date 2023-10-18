@@ -3,11 +3,16 @@ import personajes.*
 import plataformas.*
 import extras.*
 
-class Fondo
-{
+class Fondo{
 	const property position = game.origin()
 	var property image
 	method subir(parametro){}
+	method sonido(sonidoDeFondo)
+	{
+		game.sound(sonidoDeFondo).shouldLoop(true)
+		game.sound(sonidoDeFondo).volume(0.5)
+		game.schedule(50, {game.sound(sonidoDeFondo).play()})
+	}
 }
 
 class Marco{
@@ -21,13 +26,7 @@ class Marco{
 		movimiento = false
 	}
 	
-	method irAderecha(nuevaPosicion){
-		if (self.validarRango(nuevaPosicion)){
-			position = nuevaPosicion
-		}
-	}
-	
-	method irAizquierda(nuevaPosicion){
+	method irALosLados(nuevaPosicion){
 		if (self.validarRango(nuevaPosicion)){
 			position = nuevaPosicion
 		}
@@ -42,11 +41,13 @@ class Marco{
 class Escenario{
 	var property position
 	var property image
+	var property sonidoDeFondo
 }
 
 object portada{
+	const testeo = new Fondo(image="portada.png")
 	method iniciar(){
-		game.addVisual(new Fondo(image="portada.png"))
+		game.addVisual(testeo)
 		keyboard.enter().onPressDo{instrucciones.iniciar()}
 	}
 }
@@ -62,10 +63,10 @@ object instrucciones{
 }
 
 object seleccionEscenarios{
-	const property bosque 	= new Escenario(position = game.at(2,3), image = "bosqueSmall.png" )
-	const property desierto = new Escenario(position = game.at(6,3), image = "desiertoSmall.png")
-	const property castillo = new Escenario(position = game.at(10,3), image = "castilloSmall.png")
-	const property futuro 	= new Escenario(position = game.at(14,3), image = "futureSmall.png")
+	const property bosque 	= new Escenario(position = game.at(2,3), image = "bosqueSmall.png", sonidoDeFondo = "track1.mp3" )
+	const property desierto = new Escenario(position = game.at(6,3), image = "desiertoSmall.png", sonidoDeFondo = "track2.mp3")
+	const property castillo = new Escenario(position = game.at(10,3), image = "castilloSmall.png", sonidoDeFondo = "track3.mp3")
+	const property futuro 	= new Escenario(position = game.at(14,3), image = "futureSmall.png", sonidoDeFondo = "track4.mp3")
 	const property marco3   = new Marco(position = game.at(2,3), image = "marco3.png", x1 = 2, x2 = 16)
 	
 	var property cualFondo
@@ -96,16 +97,16 @@ object seleccionEscenarios{
 									cualFondo = game.uniqueCollider(marco3)
 									seleccionPersonajes.iniciar()
 									}}
-		keyboard.left().onPressDo{if (marco3.movimiento()) {marco3.irAizquierda(marco3.position().left(4))}}
-		keyboard.right().onPressDo{if (marco3.movimiento()) {marco3.irAderecha(marco3.position().right(4))}}
+		keyboard.left().onPressDo{if (marco3.movimiento()) {marco3.irALosLados(marco3.position().left(4))}}
+		keyboard.right().onPressDo{if (marco3.movimiento()) {marco3.irALosLados(marco3.position().right(4))}}
 	}
 	
 }
 
 object seleccionPersonajes{
-	var property p1 = new PoolYui(position=game.at(5,4))
-	var property p2 = new Zipmata(position=game.at(7,4))
-	var property p3 = new TankFlan(position=game.at(9,4))
+	var property p1 = new PoolYui(position=game.at(5,4),jugador=null)
+	var property p2 = new Zipmata(position=game.at(7,4),jugador=null)
+	var property p3 = new TankFlan(position=game.at(9,4),jugador=null)
 	
 	var property marco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10)
 	var property marco2 = new Marco(position = game.at(7,4), image = "marco2.png", x1 = 5, x2 = 10)
@@ -135,8 +136,8 @@ object seleccionPersonajes{
 	
 	method agregarTeclas(){
 		keyboard.enter().onPressDo{self.iniciar()}
-		keyboard.a().onPressDo{if (marco1.movimiento()){marco1.irAizquierda(marco1.position().left(2))}	}
-		keyboard.d().onPressDo{if (marco1.movimiento()) {marco1.irAderecha(marco1.position().right(2))}}
+		keyboard.a().onPressDo{if (marco1.movimiento()){marco1.irALosLados(marco1.position().left(2))}	}
+		keyboard.d().onPressDo{if (marco1.movimiento()) {marco1.irALosLados(marco1.position().right(2))}}
 		keyboard.e().onPressDo{if (marco1.movimiento()){
 			//Meter esto en un metodo
 								if (not (marco1.position()==marco2.position())) {
@@ -148,8 +149,8 @@ object seleccionPersonajes{
 			
 		}
 		
-		keyboard.left().onPressDo{if (marco2.movimiento()) {marco2.irAizquierda(marco2.position().left(2))}}
-		keyboard.right().onPressDo{if (marco2.movimiento()) {marco2.irAderecha(marco2.position().right(2))}}
+		keyboard.left().onPressDo{if (marco2.movimiento()) {marco2.irALosLados(marco2.position().left(2))}}
+		keyboard.right().onPressDo{if (marco2.movimiento()) {marco2.irALosLados(marco2.position().right(2))}}
 		keyboard.l().onPressDo{if (marco2.movimiento()){
 								if (not (marco1.position()==marco2.position())) {
 								marco2.bloquearMovimiento()
@@ -173,6 +174,8 @@ object colisiones
 	{
 		game.onCollideDo(jugador1.personaje(),{piso => piso.subir(jugador1.personaje())})
 		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})
+		game.onCollideDo(jugador1.personaje(),{disparo=> jugador1.recibeDanio(disparo.danio())})
+		game.onCollideDo(jugador2.personaje(),{disparo=> jugador2.recibeDanio(disparo.danio())})
 		//agregar collides de los poderes
 	}
 }
@@ -191,11 +194,14 @@ object visualesGeneral
 
 object nivel1
 {
+	var fondoElegido
 	method iniciar()
 	{
+		fondoElegido = new Fondo(image=seleccionEscenarios.cualFondo().image().toString().replace("Small", ""))
 		self.asignarPersonajes()
 		game.clear()
-		game.addVisual(new Fondo(image=seleccionEscenarios.cualFondo().image().toString().replace("Small", "")))
+		game.addVisual(fondoElegido)
+		fondoElegido.sonido(seleccionEscenarios.cualFondo().sonidoDeFondo())
 		
 		escenarioUno.creoPlataformas()
 		visualesGeneral.agregar()
