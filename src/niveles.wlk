@@ -177,6 +177,7 @@ object colisiones
 		game.onCollideDo(jugador1.personaje(),{disparo=> jugador1.recibeDanio(disparo.danio())})
 		game.onCollideDo(jugador2.personaje(),{disparo=> jugador2.recibeDanio(disparo.danio())})
 		//agregar collides de los poderes
+		game.onTick(100,"validarMuerte",{=>final.validarVida() final.validarVida2()})
 	}
 }
 
@@ -215,3 +216,30 @@ object nivel1
 		jugador2.asignarPersonaje()
 	}
 }
+object final
+{
+	var finall
+	var property check = 0
+	method validarVida() {
+		check = jugador1.vida()
+		if (check == 0){
+			finall = new Fondo(image="final2.png")
+			game.clear()
+			game.addVisual(finall)
+			self.iniciar()
+		}
+		}
+	 method validarVida2() {
+		check = jugador2.vida()
+		if (check == 0){
+			finall = new Fondo(image="final1.png")
+			game.clear()
+			game.addVisual(finall)
+			self.iniciar()
+		}
+}
+	method iniciar(){
+		keyboard.enter().onPressDo{portada.iniciar()}
+	}
+}
+
