@@ -24,6 +24,17 @@ object izquierda
 	method comportamientoDireccional(disparo){disparo.comportamientoIzquierda()}
 }
 
+object suelo
+{
+	method comportamiento(disparo){disparo.comportamientoArriba()}
+}
+
+object aire
+{
+	method comportamiento(disparo){disparo.comportamientoAbajo()}
+}
+
+
 object reposo
 {
 	method nombre()=""
@@ -34,7 +45,7 @@ object ataque
 	method nombre()="_ataque"
 }
 
-//comportamientos izq derecha de personajes y del menu
+//comportamientos del menu
 //limites visuales
 //energia / powerups
 //final del juego

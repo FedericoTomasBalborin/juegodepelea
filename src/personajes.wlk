@@ -17,7 +17,11 @@ object jugador1
 		keyboard.w().onPressDo({personaje.volar()})
 		keyboard.j().onPressDo({personaje.disparo1()})
 		keyboard.k().onPressDo({personaje.disparo2()})
-		game.onTick(500,"caida",{=> personaje.caer()})
+		self.eventosArbitrariosAutomaticos()
+	}
+	
+	method eventosArbitrariosAutomaticos()
+	{	game.onTick(350,"caida",{=> personaje.caer() personaje.enEl(aire)})
 	}
 	
 	method asignarPersonaje() {
@@ -43,9 +47,13 @@ object jugador2
 		keyboard.left().onPressDo({personaje.retroceder()})
 		keyboard.right().onPressDo({personaje.avanzar()})
 		keyboard.up().onPressDo({personaje.volar()})
-		game.onTick(500,"caida",{=> personaje.caer()})
 		keyboard.z().onPressDo({personaje.disparo1()})
 		keyboard.x().onPressDo({personaje.disparo2()})
+		self.eventosArbitrariosAutomaticos()
+	}
+	
+	method eventosArbitrariosAutomaticos()
+	{	game.onTick(350,"caida",{=> personaje.caer() personaje.enEl(aire)})
 	}
 	
 	method asignarPersonaje() {
@@ -74,6 +82,7 @@ class Personaje
 {
 	var property direccion = derecha //La orientacion a donde el personaje esta apuntando. Puede ser izquierda (izq) o derecha (der)
 	var property estado = reposo
+	var property enEl= aire
 	var property position = game.origin()
 	const property armamento
 	var property jugador
@@ -92,11 +101,13 @@ class Personaje
 		direccion = izquierda
 	}	
 	//Metodos para volar y caer	
-	method enElSuelo()= self.position().y()==1
 	method volar()
 	{
 		position = self.position().up(2)
+		enEl = aire
 	}
+	method enElSuelo() = enEl==suelo
+	
 	method caer() //Cuando dejé de volar
 	{
 		 if(not self.enElSuelo())

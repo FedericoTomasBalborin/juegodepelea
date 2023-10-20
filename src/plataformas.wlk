@@ -1,20 +1,5 @@
 import wollok.game.*
-
-
-
-object fondo
-{
-	const image = "fondo.jpg"
-	const sonidoDeFondo = game.sound("blaster.mp3")
-	method background()
-	{
-		sonidoDeFondo.play()
-		sonidoDeFondo.shouldLoop(true)
-		game.boardGround(image)
-		
-	}
-}
-
+import extras.*
 
 class Plataforma {
 	
@@ -23,6 +8,7 @@ class Plataforma {
 	method subir(personaje)
 	{
 		personaje.position(personaje.position().up(1))
+		personaje.enEl(suelo)
 	}
 	
 }

@@ -78,8 +78,7 @@ class DisparoVertical inherits Disparo
 	}
 	method comportamientoVertical(_chara)
 	{
-		if(_chara.enElSuelo())	{self.comportamientoArriba()}
-		else	{self.comportamientoAbajo()}
+		_chara.enEl().comportamiento(self)
 	}
 	override method evaluarComportamiento(_chara)
 	{
@@ -125,7 +124,7 @@ class Armamento
 	{
 		proyectil.colocarProyectil(_chara)
 		proyectil.automaticSelfDestruction()
-		game.schedule(100,{=>_chara.estado(reposo)})
+		game.schedule(200,{=>_chara.estado(reposo)})
 	}
 }
 

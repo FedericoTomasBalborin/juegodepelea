@@ -45,9 +45,8 @@ class Escenario{
 }
 
 object portada{
-	const testeo = new Fondo(image="portada.png")
 	method iniciar(){
-		game.addVisual(testeo)
+		game.addVisual(new Fondo(image="portada.png"))
 		keyboard.enter().onPressDo{instrucciones.iniciar()}
 	}
 }
@@ -68,7 +67,6 @@ object seleccionEscenarios{
 	const property castillo = new Escenario(position = game.at(10,3), image = "castilloSmall.png", sonidoDeFondo = "track3.mp3")
 	const property futuro 	= new Escenario(position = game.at(14,3), image = "futureSmall.png", sonidoDeFondo = "track4.mp3")
 	const property marco3   = new Marco(position = game.at(2,3), image = "marco3.png", x1 = 2, x2 = 16)
-	
 	var property cualFondo
 	
 	method iniciar(){
@@ -176,7 +174,7 @@ object colisiones
 		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})
 		game.onCollideDo(jugador1.personaje(),{disparo=> jugador1.recibeDanio(disparo.danio())})
 		game.onCollideDo(jugador2.personaje(),{disparo=> jugador2.recibeDanio(disparo.danio())})
-		//agregar collides de los poderes
+		//Mecanica para validar la muerte (((EN PROGRESO)))
 		game.onTick(100,"validarMuerte",{=>final.validarVida() final.validarVida2()})
 	}
 }
@@ -218,28 +216,28 @@ object nivel1
 }
 object final
 {
-	var finall
-	var property check = 0
+	var final
+	var check
 	method validarVida() {
-		check = jugador1.vida()
+		check = jugador1.vidas()
 		if (check == 0){
-			finall = new Fondo(image="final2.png")
+			final = new Fondo(image="final2.png")
 			game.clear()
-			game.addVisual(finall)
+			game.addVisual(final)
 			self.iniciar()
-		}
+			}
 		}
 	 method validarVida2() {
-		check = jugador2.vida()
+		check = jugador2.vidas()
 		if (check == 0){
-			finall = new Fondo(image="final1.png")
+			final = new Fondo(image="final1.png")
 			game.clear()
-			game.addVisual(finall)
+			game.addVisual(final)
 			self.iniciar()
 		}
-}
+		}
 	method iniciar(){
-		keyboard.enter().onPressDo{portada.iniciar()}
+		keyboard.enter().onPressDo{game.stop()}
 	}
 }
 // coment
