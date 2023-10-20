@@ -2,12 +2,13 @@ import wollok.game.*
 import proyectiles.*
 import plataformas.*
 import niveles.*
+import extras.*
 
 //JUGADORES
 object jugador1
 {
 	var property personaje
-	var property vida = 100
+	var property vidas = 100
 	var property posicionInicial = game.at(0,1)
 	method controles()
 	{
@@ -23,12 +24,12 @@ object jugador1
 		personaje = seleccionPersonajes.quienJugador1()
 		personaje.jugador(self)
 		personaje.position(posicionInicial)
-		personaje.direccion("der")
+		personaje.direccion(derecha)
 	}
 	
 	method recibeDanio(danioDisparo)
 	{
-		vida -= danioDisparo
+		vidas -= danioDisparo
 	}
 }
 
@@ -36,7 +37,7 @@ object jugador2
 {
 	const posicionInicial = game.at(game.width()-1,0)
 	var property personaje
-	var property vida = 100
+	var property vidas = 100
 	method controles()
 	{
 		keyboard.left().onPressDo({personaje.retroceder()})
@@ -50,12 +51,12 @@ object jugador2
 	method asignarPersonaje() {
 		personaje = seleccionPersonajes.quienJugador2()
 		personaje.jugador(self)
-		personaje.direccion("izq")
+		personaje.direccion(izquierda)
 		personaje.position(posicionInicial)
 	}
 	method recibeDanio(danioDisparo)
 	{
-		vida -= danioDisparo
+		vidas -= danioDisparo
 	}
 }
 
@@ -71,20 +72,24 @@ object jugador2
 //personajes jugables
 class Personaje
 {
-	var property direccion = "der" //La orientacion a donde el personaje esta apuntando. Puede ser izquierda (izq) o derecha (der)
+	var property direccion = derecha //La orientacion a donde el personaje esta apuntando. Puede ser izquierda (izq) o derecha (der)
+	var property estado = reposo
 	var property position = game.origin()
 	const property armamento
 	var property jugador
+	
+	method image()= direccion.nombre() + estado.nombre() + ".png"
+	
 	method avanzar()
 	{
 		position = self.position().right(1)
-		direccion = "der"
+		direccion = derecha
 	}
 	method subir(algo){}
 	method retroceder()
 	{
 		position = self.position().left(1)
-		direccion = "izq"
+		direccion = izquierda
 	}	
 	//Metodos para volar y caer	
 	method enElSuelo()= self.position().y()==1
@@ -102,10 +107,12 @@ class Personaje
 	
 	method disparo1()
 	{
+		estado = ataque
 		armamento.dispararProyectil1(self)
 	}
 	method disparo2()
 	{
+		estado = ataque
 		armamento.dispararProyectil2(self)
 	}
 	
@@ -114,16 +121,16 @@ class Personaje
 
 class PoolYui inherits Personaje(armamento = armamentoYui)
 {
-	method image() = "yui_" + direccion + ".png"
+	override method image() = "yui_" + super()
 
 }
 
 class Zipmata inherits Personaje(armamento = armamentoZipmata)
 {
-	method image() = "char_" + direccion + ".png"
+	override method image() = "char_" + super()
 }
 
 class TankFlan inherits Personaje(armamento = armamentoThirdGuy)
 {
-	method image() = "flan_" + direccion + ".png"
+	override method image() = "eag_" + super()
 }

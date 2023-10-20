@@ -1,4 +1,6 @@
 import wollok.game.*
+import extras.*
+
 class Disparo
 {
 	var property position
@@ -43,11 +45,7 @@ class Disparo
 	
 	method evaluarComportamiento(_chara)
 	{
-//		_chara.direccion().comportamineto()
-		if(_chara.direccion() == "der")
-			{self.comportamientoDerecha()}
-		else
-			{self.comportamientoIzquierda()}
+		_chara.direccion().comportamientoDireccional(self)
 	}
 	method comportamientoIzquierda()
 	{
@@ -102,8 +100,7 @@ class DisparoDiagonal inherits DisparoVertical
 	}
 	override method evaluarComportamiento(_chara)
 	{
-		if(_chara.direccion() == "der")	{self.comportamientoDerecha()}
-		else							{self.comportamientoIzquierda()}
+		_chara.direccion().comportamientoDireccional(self)
 	}
 }
 
@@ -128,6 +125,7 @@ class Armamento
 	{
 		proyectil.colocarProyectil(_chara)
 		proyectil.automaticSelfDestruction()
+		game.schedule(100,{=>_chara.estado(reposo)})
 	}
 }
 
