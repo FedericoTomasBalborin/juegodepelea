@@ -21,7 +21,7 @@ object jugador1
 	}
 	
 	method eventosArbitrariosAutomaticos()
-	{	game.onTick(350,"caida",{=> personaje.caer() personaje.enEl(aire)})
+	{	game.onTick(350,"caida",{=> personaje.caer()})
 	}
 	
 	method asignarPersonaje() {
@@ -53,7 +53,7 @@ object jugador2
 	}
 	
 	method eventosArbitrariosAutomaticos()
-	{	game.onTick(350,"caida",{=> personaje.caer() personaje.enEl(aire)})
+	{	game.onTick(350,"caida",{=> personaje.caer()})
 	}
 	
 	method asignarPersonaje() {
@@ -104,7 +104,6 @@ class Personaje
 	method volar()
 	{
 		position = self.position().up(2)
-		enEl = aire
 	}
 	method enElSuelo() = enEl==suelo
 	
@@ -113,6 +112,8 @@ class Personaje
 		 if(not self.enElSuelo())
 		 {
 		 	position = self.position().down(1)
+		 	enEl = aire
+
 		 }
 	}
 	
