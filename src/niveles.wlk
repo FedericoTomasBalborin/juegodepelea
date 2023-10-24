@@ -23,7 +23,7 @@ class Marco{
 	var x2
 	
 	method bloquearMovimiento(){
-		movimiento = false
+		//movimiento = false
 	}
 	
 	method irALosLados(nuevaPosicion){
@@ -42,6 +42,7 @@ class Escenario{
 	var property position
 	var property image
 	var property sonidoDeFondo
+	var property escenario
 }
 
 object portada{
@@ -63,10 +64,10 @@ object instrucciones{
 }
 
 object seleccionEscenarios{
-	const property bosque 	= new Escenario(position = game.at(2,3), image = "bosqueSmall.png", sonidoDeFondo = "track1.mp3" )
-	const property desierto = new Escenario(position = game.at(6,3), image = "desiertoSmall.png", sonidoDeFondo = "track2.mp3")
-	const property castillo = new Escenario(position = game.at(10,3), image = "castilloSmall.png", sonidoDeFondo = "track3.mp3")
-	const property futuro 	= new Escenario(position = game.at(14,3), image = "futureSmall.png", sonidoDeFondo = "track4.mp3")
+	const property bosque 	= new Escenario(escenario = escenarioUno, position = game.at(2,3), image = "bosqueSmall.png", sonidoDeFondo = "track1.mp3" )
+	const property desierto = new Escenario(escenario = escenarioDos, position = game.at(6,3), image = "desiertoSmall.png", sonidoDeFondo = "track2.mp3")
+	const property castillo = new Escenario(escenario = escenarioTres, position = game.at(10,3), image = "castilloSmall.png", sonidoDeFondo = "track3.mp3")
+	const property futuro 	= new Escenario(escenario = escenarioCuatro, position = game.at(14,3), image = "futureSmall.png", sonidoDeFondo = "track4.mp3")
 	const property marco3   = new Marco(position = game.at(2,3), image = "marco3.png", x1 = 2, x2 = 16)
 	
 	var property cualFondo
@@ -144,7 +145,7 @@ object seleccionPersonajes{
 									marco1.bloquearMovimiento()
 									quienJugador1 = game.uniqueCollider(marco1)
 									jugador1Ok = true
-									if (self.seleccionPersonajesOk()){nivel1.iniciar()}
+									if (self.seleccionPersonajesOk()){batalla.iniciar()}
 									}}
 			
 		}
@@ -156,7 +157,7 @@ object seleccionPersonajes{
 								marco2.bloquearMovimiento()
 								quienJugador2 = game.uniqueCollider(marco2)
 								jugador2Ok = true
-								if (self.seleccionPersonajesOk()){nivel1.iniciar()}
+								if (self.seleccionPersonajesOk()){batalla.iniciar()}
 								}}
 			
 		}
@@ -193,18 +194,20 @@ object visualesGeneral
 	}
 }
 
-object nivel1
+object batalla
 {
+	var escenarioElegido
 	var fondoElegido
 	method iniciar()
 	{
-		fondoElegido = new Fondo(image=seleccionEscenarios.cualFondo().image().toString().replace("Small", ""))
+		escenarioElegido=seleccionEscenarios.cualFondo()
+		fondoElegido = new Fondo(image=escenarioElegido.image().toString().replace("Small", ""))
 		self.asignarPersonajes()
 		game.clear()
 		game.addVisual(fondoElegido)
-		fondoElegido.sonido(seleccionEscenarios.cualFondo().sonidoDeFondo())
+		fondoElegido.sonido(escenarioElegido.sonidoDeFondo())
 		
-		escenarioUno.creoPlataformas()
+		escenarioElegido.escenario().creoPlataformas()
 		visualesGeneral.agregar()
 		jugador1.controles()
 		jugador2.controles()

@@ -52,7 +52,7 @@ class Nivel inherits Plataforma{
 	
 }
 
-
+//Nivel 1
 object escenarioUno inherits Nivel
 {
 	method creoPlataformas()
@@ -61,10 +61,38 @@ object escenarioUno inherits Nivel
 		self.crearPlataforma(game.center().x()-2,game.center().x()+2,5)
 		self.nuevoSuelo()
 	}
-//	override method crearEscaleras(){ PARA CREAR ESCALERAS MAS ADELANTE
-//		self.crearEscalera(1,5,4)
-//		self.crearEscalera(1,5,11)
-//	}
-//	
-	
+}
+
+//Nivel 2
+object escenarioDos inherits Nivel {
+	method creoPlataformas()
+	{
+		self.crearPlataforma(0,game.width(),0)
+		self.crearPlataforma(game.center().x()-1,game.center().x()-3,3)
+		self.crearPlataforma(game.center().x()+7,game.center().x()+4,3)
+		self.nuevoSuelo()
+	}
+}
+
+//Nivel 3
+object escenarioTres inherits Nivel {
+	method creoPlataformas()
+	{
+		self.crearPlataforma(0,game.width(),0)
+		self.crearPlataforma(game.center().x()-4,game.center().x()-2,7)
+		self.crearPlataforma(game.center().x()+4,game.center().x()+2,7)
+		self.crearPlataforma(game.center().x()-2,game.center().x()+2,2)
+		self.crearPlataforma(game.center().x()+2,game.center().x()+2,2)
+		self.nuevoSuelo()
+	}
+}
+
+//Nivel 4
+object escenarioCuatro inherits Nivel {
+	method creoPlataformas()
+	{
+		self.crearPlataforma(0,game.width(),0)
+		self.crearPlataforma(game.center().x()-2,game.center().x()+2,5)
+		self.nuevoSuelo()
+	}
 }
