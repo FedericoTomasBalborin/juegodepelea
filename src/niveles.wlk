@@ -221,7 +221,7 @@ object final
 	var finall
 	var property check = 0
 	method validarVida() {
-		check = jugador1.vida()
+		check = jugador1.vidas()
 		if (check == 0){
 			finall = new Fondo(image="final2.png")
 			game.clear()
@@ -229,8 +229,8 @@ object final
 			self.iniciar()
 		}
 		}
-	 method validarVida2() {
-		check = jugador2.vida()
+  	 method validarVida2() {
+		check = jugador2.vidas()
 		if (check == 0){
 			finall = new Fondo(image="final1.png")
 			game.clear()
