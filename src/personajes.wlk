@@ -5,12 +5,33 @@ import niveles.*
 import extras.*
 
 //JUGADORES
-object jugador1
+class Jugador
 {
 	var property personaje
 	var property vidas = 100
-	var property posicionInicial = game.at(0,1)
+	var property energia = 100
+	method posicionInicial()
 	method controles()
+	
+	method asignarPersonaje() {
+		personaje.jugador(self)
+		personaje.position(self.posicionInicial())
+		personaje.direccion(derecha)
+	}
+	method recibeDanio(danioDisparo)
+	{
+		vidas -= danioDisparo
+	}
+	method gastarEnergia(gasto)
+	{
+		energia -= gasto
+	}
+	method sinEnergia() = energia <= 0
+}
+
+object jugador1 inherits Jugador(personaje = null){
+	override method posicionInicial() = game.at(0,1)
+	override method controles()
 	{
 		keyboard.a().onPressDo({personaje.retroceder()})
 		keyboard.d().onPressDo({personaje.avanzar()})
@@ -20,25 +41,14 @@ object jugador1
 		game.onTick(500,"caida",{=> personaje.caer()})
 	}
 	
-	method asignarPersonaje() {
+	override method asignarPersonaje() {
 		personaje = seleccionPersonajes.quienJugador1()
-		personaje.jugador(self)
-		personaje.position(posicionInicial)
-		personaje.direccion(derecha)
-	}
-	
-	method recibeDanio(danioDisparo)
-	{
-		vidas -= danioDisparo
-	}
+		super()}
 }
 
-object jugador2
-{
-	const posicionInicial = game.at(game.width()-1,0)
-	var property personaje
-	var property vidas = 100
-	method controles()
+object jugador2 inherits Jugador(personaje = null){
+	override method posicionInicial() = game.at(game.width()-1,0)
+	override method controles()
 	{
 		keyboard.left().onPressDo({personaje.retroceder()})
 		keyboard.right().onPressDo({personaje.avanzar()})
@@ -48,15 +58,9 @@ object jugador2
 		keyboard.x().onPressDo({personaje.disparo2()})
 	}
 	
-	method asignarPersonaje() {
+	override method asignarPersonaje() {
 		personaje = seleccionPersonajes.quienJugador2()
-		personaje.jugador(self)
-		personaje.direccion(izquierda)
-		personaje.position(posicionInicial)
-	}
-	method recibeDanio(danioDisparo)
-	{
-		vidas -= danioDisparo
+		super()
 	}
 }
 
@@ -95,7 +99,9 @@ class Personaje
 	method enElSuelo()= self.position().y()==1
 	method volar()
 	{
-		position = self.position().up(2)
+		if(not(jugador.sinEnergia())){
+		jugador.gastarEnergia(1)
+		position = self.position().up(2)}
 	}
 	method caer() //Cuando dejé de volar
 	{
@@ -107,13 +113,17 @@ class Personaje
 	
 	method disparo1()
 	{
+		if(not(jugador.sinEnergia())){
 		estado = ataque
-		armamento.dispararProyectil1(self)
+		jugador.gastarEnergia(5)
+		armamento.dispararProyectil1(self)}
 	}
 	method disparo2()
 	{
+		if(not(jugador.sinEnergia())){
 		estado = ataque
-		armamento.dispararProyectil2(self)
+		jugador.gastarEnergia(5)
+		armamento.dispararProyectil2(self)}
 	}
 	
 }

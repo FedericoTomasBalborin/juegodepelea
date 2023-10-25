@@ -23,7 +23,7 @@ class Marco{
 	var x2
 	
 	method bloquearMovimiento(){
-		//movimiento = false
+		movimiento = false
 	}
 	
 	method irALosLados(nuevaPosicion){
@@ -187,10 +187,15 @@ object visualesGeneral
 {
 	method agregar()
 	{
+		const pocion = new PocionEnergia()
 		game.addVisual(jugador1.personaje())
 		game.addVisual(jugador2.personaje())
-		game.addVisualIn(vida, game.at(1, 9))
-		game.addVisualIn(vida2, game.at(17, 9))
+		game.addVisual(pocion)
+		game.onTick(7000,"colocarPocion",{pocion.position()})
+		game.addVisual(vida1)
+		game.addVisual(vida2)
+		game.addVisual(energia1)
+		game.addVisual(energia2)
 	}
 }
 
@@ -212,11 +217,14 @@ object batalla
 		jugador1.controles()
 		jugador2.controles()
 		colisiones.validar()
+		
+		
 	}
 	
 	method asignarPersonajes(){
 		jugador1.asignarPersonaje()
 		jugador2.asignarPersonaje()
+		
 	}
 }
 object final
@@ -242,7 +250,34 @@ object final
 		}
 }
 	method iniciar(){
-		keyboard.enter().onPressDo{portada.iniciar()}
+		//self.reiniciar()
+		keyboard.enter().onPressDo{game.stop() game.start()}
+	}
+	method reiniciar(){
+		seleccionPersonajes.p1().position(game.at(5,4))
+		seleccionPersonajes.p2().position(game.at(7,4))
+		seleccionPersonajes.p3().position(game.at(9,4))
+		
+		
+	//	seleccionPersonajes.marco1(baseDeDatos.bmarco1())
+	//	seleccionPersonajes.marco2(baseDeDatos.bmarco2())
+		
+		//seleccionPersonajes.jugador1Ok(baseDeDatos.bjugador1Ok())
+	//	seleccionPersonajes.jugador2Ok(baseDeDatos.bjugador2Ok())
+		jugador1.vidas(baseDeDatos.bvida())
+		jugador2.vidas(baseDeDatos.bvida())
 	}
 }
-// coment
+object  baseDeDatos{
+		const property bp1 = new PoolYui(position=game.at(5,4),jugador=null)
+		const property bp2 = new Zipmata(position=game.at(7,4),jugador=null)
+		const property bp3 = new TankFlan(position=game.at(9,4),jugador=null)
+		
+		const property bmarco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10)
+		const property bmarco2 = new Marco(position = game.at(7,4), image = "marco2.png", x1 = 5, x2 = 10)
+		
+		const property bjugador1Ok = false
+		const property bjugador2Ok = false
+		
+		const property bvida = 100
+	}
