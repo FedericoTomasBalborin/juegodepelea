@@ -250,7 +250,7 @@ object final
 		}
 }
 	method iniciar(){
-		//self.reiniciar()
+		self.reiniciar()
 		keyboard.enter().onPressDo{game.stop() game.start()}
 	}
 	method reiniciar(){

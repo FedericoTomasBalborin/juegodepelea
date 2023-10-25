@@ -64,15 +64,6 @@ object jugador2 inherits Jugador(personaje = null){
 	}
 }
 
-
-
-
-
-
-
-
-
-
 //personajes jugables
 class Personaje
 {
