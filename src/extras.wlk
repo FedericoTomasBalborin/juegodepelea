@@ -60,6 +60,10 @@ class PocionEnergia
 	var property posicionEnX = 0.randomUpTo(game.width())
 	method image() = "pocion.png"
 	method position() = game.at(posicionEnX,1)
+	method removerPng(pocima) 
+	{
+		game.removeVisual(pocima)
+	}
 	
 	
 }
