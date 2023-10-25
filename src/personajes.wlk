@@ -27,6 +27,10 @@ class Jugador
 		energia -= gasto
 	}
 	method sinEnergia() = energia <= 0
+	method recargaEnergia(pocion) 
+	{
+		energia += pocion
+	}
 }
 
 object jugador1 inherits Jugador(personaje = null){

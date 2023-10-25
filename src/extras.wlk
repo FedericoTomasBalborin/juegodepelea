@@ -56,11 +56,31 @@ object ataque
 
 class PocionEnergia
 {
+	var property pocion = 10
 	var property posicionEnX = 0.randomUpTo(game.width())
 	method image() = "pocion.png"
 	method position() = game.at(posicionEnX,1)
+	
+	
 }
-
+object validarEnergia
+{
+	var property check = 0
+	method maxEnergia(jugador)
+	{
+		check = jugador.energia()
+		if(check > 100){
+			jugador.energia(100)
+		}
+	}
+	method minEnergia(jugador)
+	{
+		check = jugador.energia()
+		if(check < 0){
+			jugador.energia(100)
+		}
+	}	
+}
 
 //limites visuales
 //Que funcionen los power-Ups

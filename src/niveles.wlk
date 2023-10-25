@@ -177,7 +177,15 @@ object colisiones
 		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})
 		game.onCollideDo(jugador1.personaje(),{disparo=> jugador1.recibeDanio(disparo.danio())})
 		game.onCollideDo(jugador2.personaje(),{disparo=> jugador2.recibeDanio(disparo.danio())})
+		game.onCollideDo(jugador1.personaje(),{pocionEnergia => jugador1.recargaEnergia(pocionEnergia.pocion())})
+		game.onCollideDo(jugador2.personaje(),{pocionEnergia => jugador2.recargaEnergia(pocionEnergia.pocion())})
+		
 		//agregar collides de los poderes
+		
+		game.onTick(100,"validarEnergia",{=>validarEnergia.maxEnergia(jugador1)})
+		game.onTick(100,"validarEnergia",{=>validarEnergia.maxEnergia(jugador2)})
+		game.onTick(100,"validarEnergia",{=>validarEnergia.minEnergia(jugador1)})
+		game.onTick(100,"validarEnergia",{=>validarEnergia.minEnergia(jugador2)})
 		game.onTick(100,"validarMuerte",{=>final.validarVida() final.validarVida2()})
 	}
 }
