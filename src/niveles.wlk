@@ -107,7 +107,7 @@ object seleccionEscenarios{
 object seleccionPersonajes{
 	var property p1 = new PoolYui(position=game.at(5,4),jugador=null)
 	var property p2 = new Zipmata(position=game.at(7,4),jugador=null)
-	var property p3 = new TankFlan(position=game.at(9,4),jugador=null)
+	var property p3 = new EagleMan(position=game.at(9,4),jugador=null)
 	
 	var property marco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10)
 	var property marco2 = new Marco(position = game.at(7,4), image = "marco2.png", x1 = 5, x2 = 10)
@@ -271,7 +271,7 @@ object final
 object  baseDeDatos{
 		const property bp1 = new PoolYui(position=game.at(5,4),jugador=null)
 		const property bp2 = new Zipmata(position=game.at(7,4),jugador=null)
-		const property bp3 = new TankFlan(position=game.at(9,4),jugador=null)
+		const property bp3 = new EagleMan(position=game.at(9,4),jugador=null)
 		
 		const property bmarco1 = new Marco(position = game.at(5,4), image = "marco1.png", x1 = 5, x2 = 10)
 		const property bmarco2 = new Marco(position = game.at(7,4), image = "marco2.png", x1 = 5, x2 = 10)

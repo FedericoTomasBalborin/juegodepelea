@@ -5,8 +5,9 @@ class Disparo
 {
 	var property position
 	const property etiquetaTickMovement = "mover"+self.toString()  
+	const imagen
+	method image() = imagen
 	method danio() = 10
-	method image() = "shoot.png"
 	method sonido(sonidoDeFondo)
 	{
 		game.sound(sonidoDeFondo).shouldLoop(false)
@@ -121,6 +122,7 @@ class DisparoDiagonalInferior inherits DisparoDiagonal
 //Armamentos
 class Armamento
 {
+	method image(_chara) = "shoot.png"
 	method dispararProyectil(_chara,proyectil)
 	{
 		proyectil.colocarProyectil(_chara)
@@ -133,12 +135,12 @@ object armamentoZipmata inherits Armamento
 {
 	method dispararProyectil1(_chara)
 	{
-		const proyectil = new DisparoDiagonal(position = _chara.position())
+		const proyectil = new DisparoDiagonal(position = _chara.position(),imagen=self.image(_chara))
 		self.dispararProyectil(_chara,proyectil)
 	}
 	method dispararProyectil2(_chara)
 	{
-		const proyectil = new DisparoDiagonalInferior(position = _chara.position())
+		const proyectil = new DisparoDiagonalInferior(position = _chara.position(),imagen=self.image(_chara))
 		self.dispararProyectil(_chara,proyectil)
 	}
 }
@@ -147,25 +149,26 @@ object armamentoYui inherits Armamento
 {
 	method dispararProyectil1(_chara)
 	{
-		const proyectil = new Disparo(position = _chara.position())
+		const proyectil = new Disparo(position = _chara.position(),imagen=self.image(_chara))
 		self.dispararProyectil(_chara,proyectil)
 	}
 	method dispararProyectil2(_chara)
 	{
-		const proyectil = new DisparoVertical(position = _chara.position())
+		const proyectil = new DisparoVertical(position = _chara.position(),imagen=self.image(_chara))
 		self.dispararProyectil(_chara,proyectil)
 	}
 }
-object armamentoThirdGuy inherits Armamento
+object armamentoEagleMan inherits Armamento
 {
+	override method image(_chara) = "eag_spell_"+_chara.direccion().nombre()+".png"
 	method dispararProyectil1(_chara)
 	{
-		const proyectil = new Disparo(position = _chara.position())
+		const proyectil = new Disparo(position = _chara.position(),imagen=self.image(_chara))
 		self.dispararProyectil(_chara,proyectil)
 	}
 	method dispararProyectil2(_chara)
 	{
-		const proyectil = new DisparoDiagonal(position = _chara.position())
+		const proyectil = new DisparoDiagonal(position = _chara.position(),imagen=self.image(_chara))
 		self.dispararProyectil(_chara,proyectil)
 	}
 }

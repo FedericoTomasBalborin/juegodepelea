@@ -131,7 +131,7 @@ class Zipmata inherits Personaje(armamento = armamentoZipmata)
 	override method image() = "char_" + super()
 }
 
-class TankFlan inherits Personaje(armamento = armamentoThirdGuy)
+class EagleMan inherits Personaje(armamento = armamentoEagleMan)
 {
 	override method image() = "eag_" + super()
 }
