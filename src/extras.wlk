@@ -24,7 +24,7 @@ class Energia
 {
 	const jugador
 	const life
-	method position() = life.position().down(1)
+	method position() = life.position().down(1).right(1)
 	method textColor() = color.blanco()
 	method text() = jugador.energia().toString()
 	method subir(personaje){}
@@ -85,6 +85,15 @@ object validarEnergia
 		}
 	}	
 }
+class EnergiaPng{
+	const position 
+	method position()= position.position().left(1)
+	method image()="energiaPng.png"
+}
+
+object energia1Png inherits EnergiaPng(position = energia1){}
+object energia2Png inherits EnergiaPng(position = energia2){}
+	
 
 //limites visuales
 //Que funcionen los power-Ups

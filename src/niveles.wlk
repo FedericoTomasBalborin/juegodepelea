@@ -202,6 +202,8 @@ object visualesGeneral
 		game.addVisual(vida2)
 		game.addVisual(energia1)
 		game.addVisual(energia2)
+		game.addVisual(energia1Png)
+		game.addVisual(energia2Png)
 	}
 	method agregarPocion()
 	{
