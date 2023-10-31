@@ -8,6 +8,14 @@ class Disparo
 	const imagen
 	method image() = imagen
 	method danio() = 10
+	method haceDanio(jugador)
+	{
+		jugador.recibeDanio(self.danio())
+	}
+	method interaccionCon(jugador)
+	{
+		self.haceDanio(jugador)
+	}
 	method sonido(sonidoDeFondo)
 	{
 		game.sound(sonidoDeFondo).shouldLoop(false)
@@ -122,7 +130,7 @@ class DisparoDiagonalInferior inherits DisparoDiagonal
 //Armamentos
 class Armamento
 {
-	method image(_chara) = "shoot.png"
+	method image(_chara) = 	"_spell_"+_chara.direccion().nombre()+".png"
 	method dispararProyectil(_chara,proyectil)
 	{
 		proyectil.colocarProyectil(_chara)
@@ -147,6 +155,7 @@ object armamentoZipmata inherits Armamento
 
 object armamentoYui inherits Armamento
 {
+	override method image(_chara) = "elr" + super(_chara)
 	method dispararProyectil1(_chara)
 	{
 		const proyectil = new Disparo(position = _chara.position(),imagen=self.image(_chara))
@@ -160,7 +169,7 @@ object armamentoYui inherits Armamento
 }
 object armamentoEagleMan inherits Armamento
 {
-	override method image(_chara) = "eag_spell_"+_chara.direccion().nombre()+".png"
+	override method image(_chara) = "eag" + super(_chara)
 	method dispararProyectil1(_chara)
 	{
 		const proyectil = new Disparo(position = _chara.position(),imagen=self.image(_chara))

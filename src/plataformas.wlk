@@ -1,53 +1,28 @@
 import wollok.game.*
-
-
-
-object fondo
-{
-	const image = "fondo.jpg"
-	const sonidoDeFondo = game.sound("blaster.mp3")
-	method background()
-	{
-		sonidoDeFondo.play()
-		sonidoDeFondo.shouldLoop(true)
-		game.boardGround(image)
-		
-	}
-}
-
-
 class Plataforma {
-	
 	const property image = "plataforma.png"
 	var property position = game.origin()
 	method subir(personaje)
 	{
 		personaje.position(personaje.position().up(1))
 	}
-	
+	method interaccionCon(jugador)
+	{
+		const personaje = jugador.personaje()
+		self.subir(personaje)
+	}
 }
 
 class Nivel inherits Plataforma{
 	
 	var property plataformas = []
-//	var property plataforma
-	
-	
-	
-	//method background()
-	//{
-	//	game.boardGround(image)
-	//}
-	
-	
 	
 	method crearPlataforma(inicio,fin,altura){	//agregar un parametro mas en caso de que hayan otros estilos de plataforma
 		(inicio..fin).forEach({numero => plataformas.add(new Plataforma(position=game.at(numero,altura)))})
 	}
 	
 	method nuevoSuelo(){
-		plataformas.forEach({p => game.addVisual(p)})
-			
+		plataformas.forEach({p => game.addVisual(p)})			
 	}
 	
 }

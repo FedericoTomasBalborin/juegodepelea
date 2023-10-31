@@ -24,7 +24,7 @@ class Energia
 {
 	const jugador
 	const life
-	method position() = life.position().down(1)
+	method position() = life.position().down(1).right(1)
 	method textColor() = color.blanco()
 	method text() = jugador.energia().toString()
 	method subir(personaje){}
@@ -56,11 +56,63 @@ object ataque
 
 class PocionEnergia
 {
-	var property posicionEnX = 0.randomUpTo(game.width())
+	const energiaQueRestaura = 10
+	var posicionInicial = self.cambiarPosicionEnX()
+	method cambiarPosicionEnX() = 0.randomUpTo(game.width())
 	method image() = "pocion.png"
-	method position() = game.at(posicionEnX,1)
+	method position() = game.at(posicionInicial,1)
+	method agregarPocion()
+	{
+		posicionInicial = self.cambiarPosicionEnX()
+		game.addVisual(self)
+	}
+	method regenerarPocion()
+	{
+		game.schedule(5000,{=>self.agregarPocion()})
+	}
+	method removerPng() 
+	{
+		game.removeVisual(self)
+		self.regenerarPocion()
+	}
+	method recarga(jugador)
+	{
+		jugador.recargaEnergia(energiaQueRestaura)
+		self.removerPng()
+	}
+	method interaccionCon(jugador)
+	{
+		self.recarga(jugador)
+	}
+	
+}
+object validarEnergia
+{
+	var property check = 0
+	method maxEnergia(jugador)
+	{
+		check = jugador.energia()
+		if(check > 100){
+			jugador.energia(100)
+		}
+	}
+	method minEnergia(jugador)
+	{
+		check = jugador.energia()
+		if(check < 0){
+			jugador.energia(100)
+		}
+	}	
+}
+class EnergiaPng{
+	const position 
+	method position()= position.position().left(1)
+	method image()="energiaPng.png"
 }
 
+object energia1Png inherits EnergiaPng(position = energia1){}
+object energia2Png inherits EnergiaPng(position = energia2){}
+	
 
 //limites visuales
 //Que funcionen los power-Ups

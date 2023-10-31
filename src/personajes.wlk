@@ -10,13 +10,14 @@ class Jugador
 	var property personaje
 	var property vidas = 100
 	var property energia = 100
+	method direccionInicial()
 	method posicionInicial()
 	method controles()
 	
 	method asignarPersonaje() {
 		personaje.jugador(self)
 		personaje.position(self.posicionInicial())
-		personaje.direccion(derecha)
+		personaje.direccion(self.direccionInicial())
 	}
 	method recibeDanio(danioDisparo)
 	{
@@ -27,10 +28,15 @@ class Jugador
 		energia -= gasto
 	}
 	method sinEnergia() = energia <= 0
+	method recargaEnergia(pocion) 
+	{
+		energia += pocion
+	}
 }
 
 object jugador1 inherits Jugador(personaje = null){
 	override method posicionInicial() = game.at(0,1)
+	override method direccionInicial() = derecha
 	override method controles()
 	{
 		keyboard.a().onPressDo({personaje.retroceder()})
@@ -48,6 +54,7 @@ object jugador1 inherits Jugador(personaje = null){
 
 object jugador2 inherits Jugador(personaje = null){
 	override method posicionInicial() = game.at(game.width()-1,0)
+	override method direccionInicial() = izquierda
 	override method controles()
 	{
 		keyboard.left().onPressDo({personaje.retroceder()})
@@ -80,7 +87,11 @@ class Personaje
 		position = self.position().right(1)
 		direccion = derecha
 	}
-	method subir(algo){}
+	method interaccionCon(otroJugador)
+	{
+		otroJugador.avanzar()
+		self.retroceder()
+	}
 	method retroceder()
 	{
 		position = self.position().left(1)
@@ -122,7 +133,7 @@ class Personaje
 
 class PoolYui inherits Personaje(armamento = armamentoYui)
 {
-	override method image() = "yui_" + super()
+	override method image() = "elr_" + super()
 
 }
 

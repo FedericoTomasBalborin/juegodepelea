@@ -173,11 +173,13 @@ object colisiones
 {
 	method validar()
 	{
-		game.onCollideDo(jugador1.personaje(),{piso => piso.subir(jugador1.personaje())})
-		game.onCollideDo(jugador2.personaje(),{piso => piso.subir(jugador2.personaje())})
-		game.onCollideDo(jugador1.personaje(),{disparo=> jugador1.recibeDanio(disparo.danio())})
-		game.onCollideDo(jugador2.personaje(),{disparo=> jugador2.recibeDanio(disparo.danio())})
+		game.onCollideDo(jugador1.personaje(),{objeto => objeto.interaccionCon(jugador1)})
+		game.onCollideDo(jugador2.personaje(),{objeto => objeto.interaccionCon(jugador2)})
 		//agregar collides de los poderes
+		game.onTick(100,"validarEnergia",{=>validarEnergia.maxEnergia(jugador1)})
+		game.onTick(100,"validarEnergia",{=>validarEnergia.maxEnergia(jugador2)})
+		game.onTick(100,"validarEnergia",{=>validarEnergia.minEnergia(jugador1)})
+		game.onTick(100,"validarEnergia",{=>validarEnergia.minEnergia(jugador2)})
 		game.onTick(100,"validarMuerte",{=>final.validarVida() final.validarVida2()})
 	}
 }
@@ -187,15 +189,24 @@ object visualesGeneral
 {
 	method agregar()
 	{
-		const pocion = new PocionEnergia()
 		game.addVisual(jugador1.personaje())
 		game.addVisual(jugador2.personaje())
-		game.addVisual(pocion)
-		game.onTick(7000,"colocarPocion",{pocion.position()})
 		game.addVisual(vida1)
 		game.addVisual(vida2)
 		game.addVisual(energia1)
 		game.addVisual(energia2)
+		self.agregarPociones()
+	}
+	method agregarPociones()
+	{
+		var time = 5000
+		const pocion1 = new PocionEnergia()
+		const pocion2 = new PocionEnergia()
+		const pocion3 = new PocionEnergia()
+		const pocion4 = new PocionEnergia()
+		const pocion5 = new PocionEnergia()
+		const listaPociones = [pocion1,pocion2,pocion3,pocion4,pocion5]
+		listaPociones.forEach({pocion => game.schedule(time,{pocion.agregarPocion()}) time=time+5000})
 	}
 }
 
